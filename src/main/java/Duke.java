@@ -88,6 +88,21 @@ public class Duke {
                     tasks.add(event);
                     System.out.printf(added, event, tasks.size());
                     break;
+                case "delete":
+                    try {
+                        int dIndex = Integer.parseInt(parts[1]) - 1;
+                        Task tt =  tasks.get(dIndex);
+                        tasks.remove(dIndex);
+                        String DEL = "____________________________________________________________\n" +
+                                " Noted. I've removed this task:\n" +
+                                "   %s\n" +
+                                " Now you have %d tasks in the list.\n" +
+                                "____________________________________________________________";
+                        System.out.printf(DEL, tt, tasks.size());
+                    } catch (Exception e) {
+                        System.out.println("Input must be number and in range");
+                    }
+                    break;
                 default:
                     // Handle unknown commands or provide help
                     System.out.println("I'm sorry, I don't know what that means :-(");
