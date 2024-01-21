@@ -46,19 +46,44 @@ public class Duke {
                     System.out.println(bar + "\n OK, I've marked this task as not done yet:\n   [ ] " + tasks.get(unmarkIndex).getDescription() + "\n" + bar);
                     break;
                 case "todo":
+                    if(parts.length==1) {
+                        System.out.println("The description cannot be empty.");
+                        break;
+                    }
                     Task t = new ToDo(parts[1]);
                     tasks.add(t);
                     System.out.printf(added, t, tasks.size());
+
                     break;
                 case "deadline":
+                    if(parts.length==1) {
+                        System.out.println("The description cannot be empty.");
+                        break;
+                    }
                     String[] deadlineParts = parts[1].split(" /by ", 2);
+                    if (parts.length==1){
+                        System.out.println("There must be a /by");
+                        break;
+                    }
                     Task d = new Deadline(deadlineParts[0], deadlineParts[1]);
                     tasks.add(d);
                     System.out.printf(added, d, tasks.size());
                     break;
                 case "event":
+                    if(parts.length==1) {
+                        System.out.println("The description cannot be empty.");
+                        break;
+                    }
                     String[] eventParts = parts[1].split(" /from ", 2);
+                    if (eventParts.length==1){
+                        System.out.println("There must be a /from");
+                        break;
+                    }
                     String[] fromTo = eventParts[1].split(" /to ", 2);
+                    if (fromTo.length==1){
+                        System.out.println("There must be a /to");
+                        break;
+                    }
                     Event event = new Event(eventParts[0], fromTo[0], fromTo[1]);
                     tasks.add(event);
                     System.out.printf(added, event, tasks.size());
