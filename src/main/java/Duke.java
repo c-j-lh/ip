@@ -16,19 +16,14 @@ public class Duke {
         Scanner s = new Scanner(System.in);
         System.out.println(m + "\n" + logo + m);
         while (true) {
-        while (true) {
             String in = s.nextLine();
             System.out.println(m);
-
-            if (in.equals("bye")) {
 
             if (in.equals("bye")) {
                 System.out.println(end);
                 break;
 
-
             } else if (in.equals("list")) {
-                System.out.println("     Here are the tasks in your list:");
                 System.out.println("     Here are the tasks in your list:");
                 for (int i = 0; i < al.size(); i++) {
                     System.out.printf("     %d.[%c][%s] %s%s\n", i + 1,
