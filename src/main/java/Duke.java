@@ -52,6 +52,19 @@ public class Duke {
                     System.out.println("     OOPS!!! Please provide a valid task number to unmark.");
                 }
 
+            } else if (in.startsWith("delete ")) {
+                try {
+                    int n = Integer.parseInt(in.split(" ")[1]) - 1;
+                    if (n < 0 || n >= al.size()) throw new IndexOutOfBoundsException();
+                    System.out.println("     Noted. I've removed this task:");
+                    System.out.printf("       [%c][%s] %s%s\n",
+                            typ.get(n), al2.get(n) ? "X" : " ", al.get(n), det.get(n));
+                    al.remove(n); al2.remove(n); typ.remove(n); det.remove(n);
+                    System.out.printf("     Now you have %d tasks in the list.\n", al.size());
+                } catch (Exception e) {
+                    System.out.println("     OOPS!!! Please provide a valid task number to delete.");
+                }
+
             } else if (in.startsWith("todo")) {
                 String desc = in.length() >= 5 ? in.substring(5).trim() : "";
                 if (desc.isEmpty()) {
