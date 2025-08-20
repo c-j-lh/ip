@@ -5,13 +5,13 @@ public class Duke {
     public static void main(String[] args) {
         String logo =   "     Hello! I'm Rama2\n" +
                         "     What can I do for you?\n";
-        String end =    "     Bye. Hope to see you again soon!\n";
+        String end =    "     Bye. Hope to see you again soon!";
         String m = "    ____________________________________________________________";
 
-        ArrayList<String> al = new ArrayList<>();          // task descriptions
-        ArrayList<Boolean> al2 = new ArrayList<>();         // done flags
-        ArrayList<Character> typ = new ArrayList<>();       // 'T', 'D', 'E'
-        ArrayList<String> det = new ArrayList<>();          // details e.g. " (by: Sunday)"
+        ArrayList<String> al = new ArrayList<>();    // descriptions
+        ArrayList<Boolean> al2 = new ArrayList<>();  // done flags
+        ArrayList<Character> typ = new ArrayList<>();// 'T','D','E'
+        ArrayList<String> det = new ArrayList<>();   // detail suffix
 
         Scanner s = new Scanner(System.in);
         System.out.println(m + "\n" + logo + m);
@@ -26,11 +26,8 @@ public class Duke {
             } else if (in.equals("list")) {
                 System.out.println("     Here are the tasks in your list:");
                 for (int i = 0; i < al.size(); i++) {
-                    System.out.printf("     %d.[%c][%s] %s%s\n", i + 1,
-                            typ.get(i),
-                            al2.get(i) ? "X" : " ",
-                            al.get(i),
-                            det.get(i));
+                    System.out.printf("     %d.[%c][%s] %s%s\n",
+                            i + 1, typ.get(i), al2.get(i) ? "X" : " ", al.get(i), det.get(i));
                 }
 
             } else if (in.startsWith("mark ")) {
@@ -47,10 +44,7 @@ public class Duke {
 
             } else if (in.startsWith("todo ")) {
                 String desc = in.substring(5).trim();
-                al.add(desc);
-                al2.add(false);
-                typ.add('T');
-                det.add("");
+                al.add(desc); al2.add(false); typ.add('T'); det.add("");
                 System.out.println("     Got it. I've added this task:");
                 System.out.printf("       [T][ ] %s\n", desc);
                 System.out.printf("     Now you have %d tasks in the list.\n", al.size());
@@ -60,9 +54,7 @@ public class Duke {
                 int idx = rest.indexOf(" /by ");
                 String desc = (idx == -1) ? rest.trim() : rest.substring(0, idx).trim();
                 String by = (idx == -1) ? "" : rest.substring(idx + 5).trim();
-                al.add(desc);
-                al2.add(false);
-                typ.add('D');
+                al.add(desc); al2.add(false); typ.add('D');
                 det.add(by.isEmpty() ? "" : " (by: " + by + ")");
                 System.out.println("     Got it. I've added this task:");
                 System.out.printf("       [D][ ] %s%s\n", desc, by.isEmpty() ? "" : " (by: " + by + ")");
@@ -75,9 +67,7 @@ public class Duke {
                 String desc = (fromIdx == -1) ? rest.trim() : rest.substring(0, fromIdx).trim();
                 String from = (fromIdx == -1) ? "" : rest.substring(fromIdx + 7, (toIdx == -1 ? rest.length() : toIdx)).trim();
                 String to = (toIdx == -1) ? "" : rest.substring(toIdx + 5).trim();
-                al.add(desc);
-                al2.add(false);
-                typ.add('E');
+                al.add(desc); al2.add(false); typ.add('E');
                 String d = "";
                 if (!from.isEmpty() || !to.isEmpty()) {
                     d = " (from: " + (from.isEmpty() ? "?" : from) + " to: " + (to.isEmpty() ? "?" : to) + ")";
@@ -88,11 +78,8 @@ public class Duke {
                 System.out.printf("     Now you have %d tasks in the list.\n", al.size());
 
             } else {
-                // fallback: treat as a simple ToDo (keeps prior behavior minimal)
-                al.add(in);
-                al2.add(false);
-                typ.add('T');
-                det.add("");
+                // keep old behavior: treat unknown line as a simple todo
+                al.add(in); al2.add(false); typ.add('T'); det.add("");
                 System.out.println("     Got it. I've added this task:");
                 System.out.printf("       [T][ ] %s\n", in);
                 System.out.printf("     Now you have %d tasks in the list.\n", al.size());
