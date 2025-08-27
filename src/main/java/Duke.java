@@ -3,9 +3,13 @@ import java.util.ArrayList;
 import java.nio.file.*;
 import java.io.*;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Duke {
     static final Path SAVE_PATH = Paths.get("data", "duke.txt");
+    static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("MMM d yyyy");
 
     public static void main(String[] args) {
         String logo =   "     Hello! I'm Rama2\n" +
@@ -17,8 +21,9 @@ public class Duke {
         ArrayList<Boolean> al2 = new ArrayList<>();
         ArrayList<Character> typ = new ArrayList<>();
         ArrayList<String> det = new ArrayList<>();
+        ArrayList<LocalDate> due = new ArrayList<>(); // only for 'D'; null otherwise
 
-        loadFromDisk(al, al2, typ, det);
+        loadFromDisk(al, al2, typ, det, due);
 
         Scanner s = new Scanner(System.in);
         System.out.println(m + "\n" + logo + m);
@@ -33,8 +38,9 @@ public class Duke {
             } else if (in.equals("list")) {
                 System.out.println("     Here are the tasks in your list:");
                 for (int i = 0; i < al.size(); i++) {
+                    String extra = renderExtra(typ.get(i), det.get(i), due.get(i));
                     System.out.printf("     %d.[%c][%s] %s%s\n",
-                            i + 1, typ.get(i), al2.get(i) ? "X" : " ", al.get(i), det.get(i));
+                            i + 1, typ.get(i), al2.get(i) ? "X" : " ", al.get(i), extra);
                 }
 
             } else if (in.startsWith("mark ")) {
@@ -42,8 +48,8 @@ public class Duke {
                     int n = Integer.parseInt(in.split(" ")[1]) - 1;
                     al2.set(n, true);
                     System.out.println("     Nice! I've marked this task as done:");
-                    System.out.printf("       [%c][X] %s%s\n", typ.get(n), al.get(n), det.get(n));
-                    saveAll(al, al2, typ, det);
+                    System.out.printf("       [%c][X] %s%s\n", typ.get(n), al.get(n), renderExtra(typ.get(n), det.get(n), due.get(n)));
+                    saveAll(al, al2, typ, det, due);
                 } catch (Exception e) {
                     System.out.println("     OOPS!!! Please provide a valid task number to mark.");
                 }
@@ -53,8 +59,8 @@ public class Duke {
                     int n = Integer.parseInt(in.split(" ")[1]) - 1;
                     al2.set(n, false);
                     System.out.println("     OK, I've marked this task as not done yet:");
-                    System.out.printf("       [%c][ ] %s%s\n", typ.get(n), al.get(n), det.get(n));
-                    saveAll(al, al2, typ, det);
+                    System.out.printf("       [%c][ ] %s%s\n", typ.get(n), al.get(n), renderExtra(typ.get(n), det.get(n), due.get(n)));
+                    saveAll(al, al2, typ, det, due);
                 } catch (Exception e) {
                     System.out.println("     OOPS!!! Please provide a valid task number to unmark.");
                 }
@@ -64,10 +70,10 @@ public class Duke {
                     int n = Integer.parseInt(in.split(" ")[1]) - 1;
                     System.out.println("     Noted. I've removed this task:");
                     System.out.printf("       [%c][%s] %s%s\n",
-                            typ.get(n), al2.get(n) ? "X" : " ", al.get(n), det.get(n));
-                    al.remove(n); al2.remove(n); typ.remove(n); det.remove(n);
+                            typ.get(n), al2.get(n) ? "X" : " ", al.get(n), renderExtra(typ.get(n), det.get(n), due.get(n)));
+                    al.remove(n); al2.remove(n); typ.remove(n); det.remove(n); due.remove(n);
                     System.out.printf("     Now you have %d tasks in the list.\n", al.size());
-                    saveAll(al, al2, typ, det);
+                    saveAll(al, al2, typ, det, due);
                 } catch (Exception e) {
                     System.out.println("     OOPS!!! Please provide a valid task number to delete.");
                 }
@@ -77,11 +83,11 @@ public class Duke {
                 if (desc.isEmpty()) {
                     System.out.println("     OOPS!!! The description of a todo cannot be empty.");
                 } else {
-                    al.add(desc); al2.add(false); typ.add('T'); det.add("");
+                    al.add(desc); al2.add(false); typ.add('T'); det.add(""); due.add(null);
                     System.out.println("     Got it. I've added this task:");
                     System.out.printf("       [T][ ] %s\n", desc);
                     System.out.printf("     Now you have %d tasks in the list.\n", al.size());
-                    saveAll(al, al2, typ, det);
+                    saveAll(al, al2, typ, det, due);
                 }
 
             } else if (in.startsWith("deadline")) {
@@ -95,12 +101,21 @@ public class Duke {
                     if (desc.isEmpty() || by.isEmpty()) {
                         System.out.println("     OOPS!!! Deadline needs both description and /by.");
                     } else {
+                        LocalDate parsed = tryParseDate(by);
                         al.add(desc); al2.add(false); typ.add('D');
-                        det.add(" (by: " + by + ")");
-                        System.out.println("     Got it. I've added this task:");
-                        System.out.printf("       [D][ ] %s (by: %s)\n", desc, by);
+                        if (parsed != null) {
+                            due.add(parsed);
+                            det.add(""); // date lives in 'due'
+                            System.out.println("     Got it. I've added this task:");
+                            System.out.printf("       [D][ ] %s (by: %s)\n", desc, OUT.format(parsed));
+                        } else {
+                            due.add(null);
+                            det.add(" (by: " + by + ")");
+                            System.out.println("     Got it. I've added this task:");
+                            System.out.printf("       [D][ ] %s (by: %s)\n", desc, by);
+                        }
                         System.out.printf("     Now you have %d tasks in the list.\n", al.size());
-                        saveAll(al, al2, typ, det);
+                        saveAll(al, al2, typ, det, due);
                     }
                 }
 
@@ -119,11 +134,11 @@ public class Duke {
                     } else {
                         al.add(desc); al2.add(false); typ.add('E');
                         String d = " (from: " + from + " to: " + to + ")";
-                        det.add(d);
+                        det.add(d); due.add(null);
                         System.out.println("     Got it. I've added this task:");
                         System.out.printf("       [E][ ] %s%s\n", desc, d);
                         System.out.printf("     Now you have %d tasks in the list.\n", al.size());
-                        saveAll(al, al2, typ, det);
+                        saveAll(al, al2, typ, det, due);
                     }
                 }
 
@@ -135,15 +150,32 @@ public class Duke {
         }
     }
 
+    static String renderExtra(char t, String det, LocalDate due) {
+        if (t == 'D') {
+            if (due != null) return " (by: " + OUT.format(due) + ")";
+            return det == null ? "" : det;
+        }
+        return det == null ? "" : det;
+    }
+
+    static LocalDate tryParseDate(String s) {
+        try {
+            return LocalDate.parse(s); // expects yyyy-MM-dd
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
     static void loadFromDisk(ArrayList<String> al, ArrayList<Boolean> al2,
-                             ArrayList<Character> typ, ArrayList<String> det) {
+                             ArrayList<Character> typ, ArrayList<String> det,
+                             ArrayList<LocalDate> due) {
         try {
             if (!Files.exists(SAVE_PATH)) return;
             List<String> lines = Files.readAllLines(SAVE_PATH);
             for (String ln : lines) {
                 String[] parts = ln.split("\\|", -1);
                 //for (int i = 0; i < parts.length; i++) parts[i] = parts[i].trim();
-                if (parts.length < 3) continue; // skip bad lines (basic corruption handling)
+                if (parts.length < 3) continue;
                 char t = parts[0].charAt(0);
                 boolean done = "1".equals(parts[1]);
                 String desc = parts[2];
@@ -151,28 +183,42 @@ public class Duke {
                 typ.add(t);
                 al2.add(done);
                 al.add(desc);
-                det.add(extra.isEmpty() ? "" : (t == 'D' ? " (by: " + extra + ")"
-                                                         : t == 'E' ? extra : ""));
+                if (t == 'D') {
+                    LocalDate d = tryParseDate(extra);
+                    if (d != null) {
+                        due.add(d);
+                        det.add("");
+                    } else {
+                        due.add(null);
+                        det.add(extra.isEmpty() ? "" : " (by: " + extra + ")");
+                    }
+                } else if (t == 'E') {
+                    due.add(null);
+                    det.add(extra);
+                } else {
+                    due.add(null);
+                    det.add("");
+                }
             }
-        } catch (IOException e) {
-            // ignore loading errors per minimal requirement
-        }
+        } catch (IOException e) { }
     }
 
     static void saveAll(ArrayList<String> al, ArrayList<Boolean> al2,
-                        ArrayList<Character> typ, ArrayList<String> det) {
+                        ArrayList<Character> typ, ArrayList<String> det,
+                        ArrayList<LocalDate> due) {
         try {
             if (SAVE_PATH.getParent() != null) Files.createDirectories(SAVE_PATH.getParent());
             try (BufferedWriter w = Files.newBufferedWriter(SAVE_PATH)) {
                 for (int i = 0; i < al.size(); i++) {
-                    String extra;
+                    String extra = "";
                     if (typ.get(i) == 'D') {
-                        String d = det.get(i);
-                        extra = d.startsWith(" (by: ") ? d.substring(6, d.length() - 1) : d;
+                        if (due.get(i) != null) extra = due.get(i).toString(); // ISO
+                        else {
+                            String d = det.get(i);
+                            extra = d.startsWith(" (by: ") ? d.substring(6, d.length() - 1) : d;
+                        }
                     } else if (typ.get(i) == 'E') {
                         extra = det.get(i);
-                    } else {
-                        extra = "";
                     }
                     String line = typ.get(i) + "|" + (al2.get(i) ? "1" : "0") + "|" + al.get(i);
                     if (!extra.isEmpty()) line += "|" + extra;
@@ -180,8 +226,6 @@ public class Duke {
                     w.newLine();
                 }
             }
-        } catch (IOException e) {
-            // swallow per minimal requirement (could print a warning if you want)
-        }
+        } catch (IOException e) { }
     }
 }

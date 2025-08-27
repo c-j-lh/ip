@@ -4,27 +4,56 @@
     ____________________________________________________________
     ____________________________________________________________
      Here are the tasks in your list:
-     1.[T][ ] read book
-     2.[D][ ] return book (by: Sunday)
-     3.[E][ ] meeting (from: Mon 2pm to: 4pm)
+     1.[D][ ] return book (by: Oct 15 2019)
+     2.[D][ ] return pen (by: Sunday)
+     3.[T][ ] read
+     4.[E][ ] meeting (from: Mon 2pm to: 4pm)
+    ____________________________________________________________
+    ____________________________________________________________
+     Got it. I've added this task:
+       [D][ ] project (by: Jan 2 2020)
+     Now you have 5 tasks in the list.
+    ____________________________________________________________
+    ____________________________________________________________
+     Got it. I've added this task:
+       [D][ ] free (by: next week)
+     Now you have 6 tasks in the list.
+    ____________________________________________________________
+    ____________________________________________________________
+     Here are the tasks in your list:
+     1.[D][ ] return book (by: Oct 15 2019)
+     2.[D][ ] return pen (by: Sunday)
+     3.[T][ ] read
+     4.[E][ ] meeting (from: Mon 2pm to: 4pm)
+     5.[D][ ] project (by: Jan 2 2020)
+     6.[D][ ] free (by: next week)
     ____________________________________________________________
     ____________________________________________________________
      Nice! I've marked this task as done:
-       [T][X] read book
+       [D][X] return book (by: Oct 15 2019)
     ____________________________________________________________
     ____________________________________________________________
      OK, I've marked this task as not done yet:
-       [T][ ] read book
+       [D][ ] return book (by: Oct 15 2019)
     ____________________________________________________________
     ____________________________________________________________
      Noted. I've removed this task:
        [E][ ] meeting (from: Mon 2pm to: 4pm)
-     Now you have 2 tasks in the list.
+     Now you have 5 tasks in the list.
     ____________________________________________________________
     ____________________________________________________________
      Here are the tasks in your list:
-     1.[T][ ] read book
-     2.[D][ ] return book (by: Sunday)
+     1.[D][ ] return book (by: Oct 15 2019)
+     2.[D][ ] return pen (by: Sunday)
+     3.[T][ ] read
+     4.[D][ ] project (by: Jan 2 2020)
+     5.[D][ ] free (by: next week)
+    ____________________________________________________________
+    ____________________________________________________________
+     OOPS!!! I'm sorry, but I don't know what that means :-(
+    ____________________________________________________________
+    ____________________________________________________________
+     OOPS!!! The description of a todo cannot be empty.
     ____________________________________________________________
     ____________________________________________________________
      Bye. Hope to see you again soon!

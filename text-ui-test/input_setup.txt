@@ -1,4 +1,5 @@
-todo read book
-deadline return book /by Sunday
+deadline return book /by 2019-10-15
+deadline return pen /by Sunday
+todo read
 event meeting /from Mon 2pm /to 4pm
 bye
