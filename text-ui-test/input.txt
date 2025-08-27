@@ -1,6 +1,11 @@
 list
+deadline project /by 2020-01-02
+deadline free /by next week
+list
 mark 1
 unmark 1
-delete 3
+delete 4
 list
+blah
+todo
 bye
