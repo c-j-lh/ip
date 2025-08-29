@@ -1,4 +1,5 @@
 package rama2;
+
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
@@ -12,20 +13,32 @@ class Ui {
                 "     Hello! I'm Rama2\n" +
                 "     What can I do for you?\n" + m);
     }
-    void line() { System.out.println(m); }
-    String read() { return in.nextLine(); }
-    void showBye() { System.out.println("     Bye. Hope to see you again soon!"); }
+
+    void line() {
+        System.out.println(m);
+    }
+
+    String read() {
+        return in.nextLine();
+    }
+
+    void showBye() {
+        System.out.println("     Bye. Hope to see you again soon!");
+    }
 
     String render(Task t) {
         String extra = "";
         if (t.type == Task.TaskType.D) {
-            if (t.due != null) extra = " (by: " + OUT.format(t.due) + ")";
-            else extra = t.extra == null ? "" : t.extra;
+            if (t.due != null)
+                extra = " (by: " + OUT.format(t.due) + ")";
+            else
+                extra = t.extra == null ? "" : t.extra;
         } else if (t.type == Task.TaskType.E) {
             extra = t.extra == null ? "" : t.extra;
         }
-        return String.format("[%c][%s] %s%s", ((t.type == Task.TaskType.D) ? 'D' : 
-               (t.type == Task.TaskType.T) ? 'T' : 'E'), t.done ? "X" : " ", t.desc, extra);
+        return String.format("[%c][%s] %s%s",
+                ((t.type == Task.TaskType.D) ? 'D' : (t.type == Task.TaskType.T) ? 'T' : 'E'), t.done ? "X" : " ",
+                t.desc, extra);
     }
 
     void printList(TaskList tl) {

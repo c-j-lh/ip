@@ -1,4 +1,5 @@
 package rama2;
+
 import java.time.LocalDate;
 
 public class Rama2 {
@@ -10,8 +11,11 @@ public class Rama2 {
         this.storage = new Storage();
         this.ui = new Ui();
         TaskList loaded;
-        try { loaded = new TaskList(storage.load()); }
-        catch (Exception e) { loaded = new TaskList(); }
+        try {
+            loaded = new TaskList(storage.load());
+        } catch (Exception e) {
+            loaded = new TaskList();
+        }
         this.tasks = loaded;
     }
 
@@ -128,12 +132,16 @@ public class Rama2 {
             }
 
             ui.line();
-            if (exit) break;
+            if (exit)
+                break;
         }
     }
 
     private void storageSave() {
-        try { storage.save(tasks); } catch (Exception e) { /* ignore minimal */ }
+        try {
+            storage.save(tasks);
+        } catch (Exception e) {
+            /* ignore minimal */ }
     }
 
     public static void main(String[] args) {
