@@ -39,6 +39,12 @@ class Parser {
                     : rest.substring(fromIdx + 7, toIdx).trim() + "|" + rest.substring(toIdx + 5).trim();
             return c;
         }
+        if (in.startsWith("find")) {
+            Cmd c = new Cmd("find");
+            String rest = in.length() >= 5 ? in.substring(5) : "";
+            c.a = rest.trim();
+            return c;
+        }
         return new Cmd("unknown");
     }
 
