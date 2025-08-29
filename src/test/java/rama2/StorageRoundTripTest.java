@@ -1,4 +1,4 @@
-package duke;
+package rama2;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.*;
 class StorageRoundTripTest {
 
     private static final Path DATA_DIR = Paths.get("data");
-    private static final Path DATA_FILE = DATA_DIR.resolve("duke.txt");
-    private static final Path BACKUP_FILE = DATA_DIR.resolve("duke.txt.bak");
+    private static final Path DATA_FILE = DATA_DIR.resolve("rama2.txt");
+    private static final Path BACKUP_FILE = DATA_DIR.resolve("rama2.txt.bak");
 
     @BeforeEach
     void backupExisting() throws IOException {

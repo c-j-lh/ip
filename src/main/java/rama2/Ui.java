@@ -1,4 +1,4 @@
-package duke;
+package rama2;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
@@ -24,7 +24,8 @@ class Ui {
         } else if (t.type == Task.TaskType.E) {
             extra = t.extra == null ? "" : t.extra;
         }
-        return String.format("[%c][%s] %s%s", t.type, t.done ? "X" : " ", t.desc, extra);
+        return String.format("[%c][%s] %s%s", ((t.type == Task.TaskType.D) ? 'D' : 
+               (t.type == Task.TaskType.T) ? 'T' : 'E'), t.done ? "X" : " ", t.desc, extra);
     }
 
     void printList(TaskList tl) {

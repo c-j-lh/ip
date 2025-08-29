@@ -1,4 +1,4 @@
-package duke;
+package rama2;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.*;
+
 
 class UnicodeTest {
     private final String TEST = "Testing «ταБЬℓσ»: 1<2 & 4+1>3, now 20% off!";  

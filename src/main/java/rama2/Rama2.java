@@ -1,12 +1,12 @@
-package duke;
+package rama2;
 import java.time.LocalDate;
 
-public class Duke {
+public class Rama2 {
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
 
-    public Duke(String filePath) {
+    public Rama2(String filePath) {
         this.storage = new Storage();
         this.ui = new Ui();
         TaskList loaded;
@@ -137,6 +137,6 @@ public class Duke {
     }
 
     public static void main(String[] args) {
-        new Duke("data/duke.txt").run();
+        new Rama2("data/duke.txt").run();
     }
 }

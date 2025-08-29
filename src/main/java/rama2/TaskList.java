@@ -1,4 +1,4 @@
-package duke;
+package rama2;
 import java.util.ArrayList;
 import java.util.List;
 

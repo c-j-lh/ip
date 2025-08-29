@@ -1,4 +1,4 @@
-package duke;
+package rama2;
 import java.time.LocalDate;
 
 class Parser {

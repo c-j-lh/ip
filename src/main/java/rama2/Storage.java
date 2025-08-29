@@ -1,11 +1,11 @@
-package duke;
+package rama2;
 import java.nio.file.*;
 import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
 
 class Storage {
-    static final Path SAVE_PATH = Paths.get("data", "duke.txt");
+    static final Path SAVE_PATH = Paths.get("data", "rama.txt");
 
     List<Task> load() throws IOException {
         if (!Files.exists(SAVE_PATH)) return new ArrayList<>();
