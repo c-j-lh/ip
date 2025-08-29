@@ -132,6 +132,19 @@ public class Rama2 {
                         }
                     }
                     break;
+                case "find":
+                    if (c.a == null) {
+                        System.out.println("     OOPS!!! Use: find <String>");
+                    } else {
+                        TaskList found = new TaskList();
+                        for (int i = 0; i < tasks.size(); i++) {
+                            if(tasks.get(i).desc.contains(c.a)) {
+                                found.add(tasks.get(i));
+                            }
+                        }
+                        ui.printList(found);
+                    }
+                    break;
 
                 default:
                     System.out.println("     OOPS!!! I'm sorry, but I don't know what that means :-(");

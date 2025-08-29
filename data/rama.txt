@@ -1,1 +1,4 @@
 D|0|Testing «ταБЬℓσ»: 1<2 & 4+1>3, now 20% off!
+T|0|a
+E|0|b| (from: b to: c)
+D|0|c|r
