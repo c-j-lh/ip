@@ -43,7 +43,7 @@ class StorageRoundTripTest {
         TaskList original = new TaskList();
         original.add(new Task(Task.TaskType.T, false, "read book", "", null));
         original.add(new Task(Task.TaskType.D, false, "return book", "", LocalDate.of(2019, 10, 15))); // ISO date
-        original.add(new Task(Task.TaskType.D, true,  "finish draft", " (by: next week)", null));     // free-text
+        original.add(new Task(Task.TaskType.D, true, "finish draft", " (by: next week)", null)); // free-text
         original.add(new Task(Task.TaskType.E, false, "project meeting", " (from: Mon 2pm to: 4pm)", null));
 
         Storage storage = new Storage();

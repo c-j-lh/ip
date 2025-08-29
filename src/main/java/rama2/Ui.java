@@ -1,4 +1,5 @@
 package rama2;
+
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
@@ -21,18 +22,24 @@ class Ui {
 
     /*
      * Prints border. To be called before and after every Rama2 output.
-     */
-    void line() { System.out.println(m); }
+     */    
+    void line() {
+        System.out.println(m);
+    }
 
     /*
      * readLine() wrapper.
      */
-    String read() { return in.nextLine(); }
+    String read() {
+        return in.nextLine();
+    }
 
     /*
      * Prints farewell message.
      */
-    void showBye() { System.out.println("     Bye. Hope to see you again soon!"); }
+    void showBye() {
+        System.out.println("     Bye. Hope to see you again soon!");
+    }
 
     /*
      * Renders a Task to be used in lists or individually.
@@ -40,13 +47,16 @@ class Ui {
     String render(Task t) {
         String extra = "";
         if (t.type == Task.TaskType.D) {
-            if (t.due != null) extra = " (by: " + OUT.format(t.due) + ")";
-            else extra = t.extra == null ? "" : t.extra;
+            if (t.due != null)
+                extra = " (by: " + OUT.format(t.due) + ")";
+            else
+                extra = t.extra == null ? "" : t.extra;
         } else if (t.type == Task.TaskType.E) {
             extra = t.extra == null ? "" : t.extra;
         }
-        return String.format("[%c][%s] %s%s", ((t.type == Task.TaskType.D) ? 'D' : 
-               (t.type == Task.TaskType.T) ? 'T' : 'E'), t.done ? "X" : " ", t.desc, extra);
+        return String.format("[%c][%s] %s%s",
+                ((t.type == Task.TaskType.D) ? 'D' : (t.type == Task.TaskType.T) ? 'T' : 'E'), t.done ? "X" : " ",
+                t.desc, extra);
     }
 
     /*

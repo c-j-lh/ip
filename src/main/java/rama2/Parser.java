@@ -1,4 +1,5 @@
 package rama2;
+
 import java.time.LocalDate;
 
 /*
@@ -8,15 +9,32 @@ class Parser {
     static class Cmd {
         String name; // list, bye, todo, deadline, event, mark, unmark, delete, unknown
         String a, b, c; // generic slots
-        Cmd(String name) { this.name = name; }
+
+        Cmd(String name) {
+            this.name = name;
+        }
     }
 
     static Cmd parse(String in) {
-        if (in.equals("bye")) return new Cmd("bye");
-        if (in.equals("list")) return new Cmd("list");
-        if (in.startsWith("mark ")) { Cmd c = new Cmd("mark"); c.a = in.split(" ")[1]; return c; }
-        if (in.startsWith("unmark ")) { Cmd c = new Cmd("unmark"); c.a = in.split(" ")[1]; return c; }
-        if (in.startsWith("delete ")) { Cmd c = new Cmd("delete"); c.a = in.split(" ")[1]; return c; }
+        if (in.equals("bye"))
+            return new Cmd("bye");
+        if (in.equals("list"))
+            return new Cmd("list");
+        if (in.startsWith("mark ")) {
+            Cmd c = new Cmd("mark");
+            c.a = in.split(" ")[1];
+            return c;
+        }
+        if (in.startsWith("unmark ")) {
+            Cmd c = new Cmd("unmark");
+            c.a = in.split(" ")[1];
+            return c;
+        }
+        if (in.startsWith("delete ")) {
+            Cmd c = new Cmd("delete");
+            c.a = in.split(" ")[1];
+            return c;
+        }
         if (in.startsWith("todo")) {
             Cmd c = new Cmd("todo");
             c.a = in.length() >= 5 ? in.substring(5).trim() : "";
@@ -46,6 +64,10 @@ class Parser {
     }
 
     static LocalDate tryParseDate(String s) {
-        try { return LocalDate.parse(s); } catch (Exception e) { return null; }
+        try {
+            return LocalDate.parse(s);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
