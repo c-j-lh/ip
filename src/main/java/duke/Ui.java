@@ -18,10 +18,10 @@ class Ui {
 
     String render(Task t) {
         String extra = "";
-        if (t.type == 'D') {
+        if (t.type == Task.TaskType.D) {
             if (t.due != null) extra = " (by: " + OUT.format(t.due) + ")";
             else extra = t.extra == null ? "" : t.extra;
-        } else if (t.type == 'E') {
+        } else if (t.type == Task.TaskType.E) {
             extra = t.extra == null ? "" : t.extra;
         }
         return String.format("[%c][%s] %s%s", t.type, t.done ? "X" : " ", t.desc, extra);

@@ -77,7 +77,7 @@ public class Duke {
                     if (c.a == null || c.a.isEmpty()) {
                         System.out.println("     OOPS!!! The description of a todo cannot be empty.");
                     } else {
-                        Task t = new Task('T', false, c.a, "", null);
+                        Task t = new Task(Task.TaskType.T, false, c.a, "", null);
                         tasks.add(t);
                         System.out.println("     Got it. I've added this task:");
                         System.out.println("       " + ui.render(t));
@@ -92,8 +92,8 @@ public class Duke {
                     } else {
                         LocalDate d = Parser.tryParseDate(c.c);
                         Task t = (d != null)
-                                ? new Task('D', false, c.b, "", d)
-                                : new Task('D', false, c.b, " (by: " + c.c + ")", null);
+                                ? new Task(Task.TaskType.D, false, c.b, "", d)
+                                : new Task(Task.TaskType.D, false, c.b, " (by: " + c.c + ")", null);
                         tasks.add(t);
                         System.out.println("     Got it. I've added this task:");
                         System.out.println("       " + ui.render(t));
@@ -113,7 +113,7 @@ public class Duke {
                             System.out.println("     OOPS!!! Event needs description, /from and /to.");
                         } else {
                             String extra = " (from: " + from + " to: " + to + ")";
-                            Task t = new Task('E', false, c.b, extra, null);
+                            Task t = new Task(Task.TaskType.E, false, c.b, extra, null);
                             tasks.add(t);
                             System.out.println("     Got it. I've added this task:");
                             System.out.println("       " + ui.render(t));

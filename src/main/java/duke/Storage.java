@@ -21,12 +21,12 @@ class Storage {
             String extra = parts.length >= 4 ? parts[3] : "";
             if (t == 'D') {
                 LocalDate d = tryParse(extra);
-                if (d != null) out.add(new Task('D', done, desc, "", d));
-                else out.add(new Task('D', done, desc, extra.isEmpty() ? "" : " (by: " + extra + ")", null));
+                if (d != null) out.add(new Task(Task.TaskType.D, done, desc, "", d));
+                else out.add(new Task(Task.TaskType.D, done, desc, extra.isEmpty() ? "" : " (by: " + extra + ")", null));
             } else if (t == 'E') {
-                out.add(new Task('E', done, desc, extra, null));
+                out.add(new Task(Task.TaskType.E, done, desc, extra, null));
             } else {
-                out.add(new Task('T', done, desc, "", null));
+                out.add(new Task(Task.TaskType.T, done, desc, "", null));
             }
         }
         return out;
@@ -37,13 +37,13 @@ class Storage {
         try (BufferedWriter w = Files.newBufferedWriter(SAVE_PATH)) {
             for (Task t : tl.tasks) {
                 String extra = "";
-                if (t.type == 'D') {
+                if (t.type == Task.TaskType.D) {
                     if (t.due != null) extra = t.due.toString();
                     else {
                         String d = t.extra == null ? "" : t.extra;
                         extra = d.startsWith(" (by: ") ? d.substring(6, d.length() - 1) : d;
                     }
-                } else if (t.type == 'E') {
+                } else if (t.type == Task.TaskType.E) {
                     extra = t.extra == null ? "" : t.extra;
                 }
                 String line = t.type + "|" + (t.done ? "1" : "0") + "|" + t.desc;
