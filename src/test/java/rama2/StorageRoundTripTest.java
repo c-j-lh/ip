@@ -9,6 +9,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.*;
 
+/*
+ * Tests a varied routine.
+ */
 class StorageRoundTripTest {
 
     private static final Path DATA_DIR = Paths.get("data");

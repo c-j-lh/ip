@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.*;
 
-
+/*
+ * Tests Unicode characters in Task description.
+ */
 class UnicodeTest {
     private final String TEST = "Testing «ταБЬℓσ»: 1<2 & 4+1>3, now 20% off!";  
         // TODO: test \r too? or redundant?

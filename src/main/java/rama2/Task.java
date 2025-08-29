@@ -1,6 +1,9 @@
 package rama2;
 import java.time.LocalDate;
 
+/*
+ * Task, with type, markedness, description, and either date-as-string or date-as LocalDate
+ */
 class Task {
     //char type;          // 'T','D','E'
     enum TaskType { T, D, E };

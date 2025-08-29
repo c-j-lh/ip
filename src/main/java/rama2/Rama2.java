@@ -1,6 +1,9 @@
 package rama2;
 import java.time.LocalDate;
 
+/*
+ * Main class.
+ */
 public class Rama2 {
     private final Storage storage;
     private final TaskList tasks;
@@ -15,6 +18,9 @@ public class Rama2 {
         this.tasks = loaded;
     }
 
+    /*
+     * Main runner function
+     */
     public void run() {
         ui.showWelcome();
         boolean exit = false;

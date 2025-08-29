@@ -4,9 +4,15 @@ import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
 
+/*
+ * Saves and loads files.
+ */
 class Storage {
     static final Path SAVE_PATH = Paths.get("data", "rama.txt");
 
+    /*
+     * Loads file and returns List<Task>.
+     */
     List<Task> load() throws IOException {
         if (!Files.exists(SAVE_PATH)) return new ArrayList<>();
         List<String> lines = Files.readAllLines(SAVE_PATH);
@@ -32,6 +38,9 @@ class Storage {
         return out;
     }
 
+    /*
+     * Saves file from TaskList.
+     */
     void save(TaskList tl) throws IOException {
         if (SAVE_PATH.getParent() != null) Files.createDirectories(SAVE_PATH.getParent());
         try (BufferedWriter w = Files.newBufferedWriter(SAVE_PATH)) {

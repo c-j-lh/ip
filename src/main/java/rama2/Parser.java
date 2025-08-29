@@ -1,6 +1,9 @@
 package rama2;
 import java.time.LocalDate;
 
+/*
+ * Parses  single raw input String into Cmd (with a,b,c fields).
+ */
 class Parser {
     static class Cmd {
         String name; // list, bye, todo, deadline, event, mark, unmark, delete, unknown
