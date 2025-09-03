@@ -18,16 +18,16 @@ fi
 #../gradlew -q clean classes 
 
 # -------- Run 1: setup (creates data/duke.txt) ----------
-java -classpath ../bin rama2.Duke < input_setup.txt > ACTUAL-SETUP.TXT
-#java -classpath ../build/classes/java/main rama2.Duke < input_setup.txt > actual_setup.txt
+java -classpath ../bin ramarama.Rama2 < input_setup.txt > ACTUAL-SETUP.TXT
+#java -classpath ../build/classes/java/main ramarama.Duke < input_setup.txt > actual_setup.txt
 
 # -------- Run 2: assertion (verifies load + ops) ----------
-java -classpath ../bin rama2.Duke < input.txt > actual.txt
-#java -classpath ../build/classes/java/main rama2.Duke < input.txt > actual.txt
+java -classpath ../bin ramarama.Rama2 < input.txt > actual.txt
+#java -classpath ../build/classes/java/main ramarama.Duke < input.txt > actual.txt
 
 # convert to UNIX format (no-op if tool missing)
 cp expected.txt expected-UNIX.txt
-dos2unix actual.txt expected-UNIX.txt >/dev/null 2>&1 || true
+#dos2unix actual.txt expected-UNIX.txt >/dev/null 2>&1 || true
 
 # compare
-diff actual.txt expected-UNIX.txt && echo "Test result: PASSED"
+diff actual.txt expected.txt && echo "Test result: PASSED"

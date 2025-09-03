@@ -1,4 +1,4 @@
-package rama2;
+package ramarama;
 
 import java.time.LocalDate;
 
@@ -8,7 +8,9 @@ import java.time.LocalDate;
 class Parser {
     static class Cmd {
         String name; // list, bye, todo, deadline, event, mark, unmark, delete, unknown
-        String a, b, c; // generic slots
+        String a;
+        String b;
+        String c; // generic slots
 
         Cmd(String name) {
             this.name = name;
@@ -16,10 +18,12 @@ class Parser {
     }
 
     static Cmd parse(String in) {
-        if (in.equals("bye"))
+        if (in.equals("bye")) {
             return new Cmd("bye");
-        if (in.equals("list"))
+        }
+        if (in.equals("list")) {
             return new Cmd("list");
+        }
         if (in.startsWith("mark ")) {
             Cmd c = new Cmd("mark");
             c.a = in.split(" ")[1];

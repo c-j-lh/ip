@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'checkstyle'
 }
 
 repositories {
@@ -28,14 +29,18 @@ test {
 }
 
 application {
-    mainClass.set("rama2.Rama2")
+    mainClass.set("ramarama.Rama2")
 }
 
 shadowJar {
-    archiveBaseName = "rama2"
+    archiveBaseName = "ramarama"
     archiveClassifier = null
 }
 
 run{
     standardInput = System.in
+}
+
+checkstyle {
+    toolVersion = '11.0.0'
 }

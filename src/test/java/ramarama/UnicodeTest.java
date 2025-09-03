@@ -1,18 +1,18 @@
-package rama2;
+package ramarama;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
 /*
  * Tests Unicode characters in Task description.
  */
 class UnicodeTest {
-    private final String TEST = "Testing «ταБЬℓσ»: 1<2 & 4+1>3, now 20% off!";
+    private static final String TEST = "Testing «ταБЬℓσ»: 1<2 & 4+1>3, now 20% off!";
 
     @Test
     void saveThenLoad_unicode_preservesUnicode() throws IOException {

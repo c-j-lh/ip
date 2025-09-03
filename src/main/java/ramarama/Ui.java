@@ -1,7 +1,7 @@
-package rama2;
+package ramarama;
 
-import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 /*
  * Stores various standard output strings.
@@ -9,20 +9,22 @@ import java.time.format.DateTimeFormatter;
 class Ui {
     final Scanner in = new Scanner(System.in);
     final String m = "    ____________________________________________________________";
-    final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("MMM d yyyy");
+    static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("MMM d yyyy");
 
     /*
      * Prints standard welcome message.
      */
     void showWelcome() {
-        System.out.println(m + "\n" +
-                "     Hello! I'm Rama2\n" +
-                "     What can I do for you?\n" + m);
+        System.out.println(m
+                + "\n"
+                + "     Hello! I'm Rama2\n"
+                + "     What can I do for you?\n"
+                + m);
     }
 
     /*
      * Prints border. To be called before and after every Rama2 output.
-     */    
+     */
     void line() {
         System.out.println(m);
     }
@@ -47,10 +49,11 @@ class Ui {
     String render(Task t) {
         String extra = "";
         if (t.type == Task.TaskType.D) {
-            if (t.due != null)
+            if (t.due != null) {
                 extra = " (by: " + OUT.format(t.due) + ")";
-            else
+            } else {
                 extra = t.extra == null ? "" : t.extra;
+            }
         } else if (t.type == Task.TaskType.E) {
             extra = t.extra == null ? "" : t.extra;
         }
