@@ -1,6 +1,7 @@
 # Duke project template
 
-AI declaration: https://chatgpt.com/share/68a59b7c-785c-8000-9b15-7ffabef25e3c
+AI declaration: https://chatgpt.com/s/t_68b7e504ba448191a1c3625180dc1b71,
+
 Used AI for Level-4 onwards, but read through code and ran checks (had to make one minor tweak and fix CRLF->LF)
 
 This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
