@@ -12,21 +12,21 @@ class Ui {
     static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("MMM d yyyy");
 
     /*
-     * Prints standard welcome message.
+     * Returns standard welcome message.
      */
-    void showWelcome() {
-        System.out.println(m
+    String showWelcome() {
+        return m
                 + "\n"
                 + "     Hello! I'm Rama2\n"
                 + "     What can I do for you?\n"
-                + m);
+                + m;
     }
 
     /*
-     * Prints border. To be called before and after every Rama2 output.
+     * Returns border. To be called before and after every Rama2 output.
      */
-    void line() {
-        System.out.println(m);
+    String line() {
+        return m;
     }
 
     /*
@@ -37,10 +37,10 @@ class Ui {
     }
 
     /*
-     * Prints farewell message.
+     * Returns farewell message.
      */
-    void showBye() {
-        System.out.println("     Bye. Hope to see you again soon!");
+    String showBye() {
+        return "     Bye. Hope to see you again soon!";
     }
 
     /*
@@ -63,13 +63,15 @@ class Ui {
     }
 
     /*
-     * Prints a whole list of Tasks. A convenient function.
+     * Returns a whole list of Tasks as a String. A convenient function.
      */
-    void printList(TaskList tl) {
-        System.out.println("     Here are the tasks in your list:");
+    String printList(TaskList tl) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("     Here are the tasks in your list:\n");
         for (int i = 0; i < tl.size(); i++) {
             Task t = tl.get(i);
-            System.out.printf("     %d.%s\n", i + 1, render(t));
+            sb.append(String.format("     %d.%s\n", i + 1, render(t)));
         }
+        return sb.toString();
     }
 }
