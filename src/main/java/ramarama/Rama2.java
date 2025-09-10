@@ -141,8 +141,11 @@ public class Rama2 {
             output.append(ui.printList(found));
             break;
 
-        default:
+        case "unknown":
             output.append("     OOPS!!! I'm sorry, but I don't know what that means :-(").append("\n");
+            break;
+        default:
+            assert false : "cmd.name should be 'unknown' if invalid";
         }
         return output.toString();
     }
