@@ -2,7 +2,7 @@ package ramarama;
 
 import java.time.LocalDate;
 
-import javafx.application.Platform;
+
 
 /*
  * Main class.
@@ -106,26 +106,35 @@ public class Rama2 {
             break;
 
         case "event":
-            if (c.a == null || c.b == null || c.c == null) {
+            String trimmed = input.trim();
+            int sp = trimmed.indexOf(' ');
+            String rest = sp == -1 ? "" : trimmed.substring(sp + 1);
+
+            // simple whitespace split; no quotes needed
+            String[] argsForPico = rest.isBlank() ? new String[0] : rest.trim().split("\\s+");
+
+            EventOptions opts = new EventOptions();
+            try {
+                new picocli.CommandLine(opts).parseArgs(argsForPico);
+            } catch (picocli.CommandLine.ParameterException ex) {
                 output.append("     OOPS!!! Use: event <desc> /from <start> /to <end>\n");
                 break;
             }
 
-            int bar = c.c.indexOf('|');
-            String from = c.c.substring(0, bar);
-            String to = c.c.substring(bar + 1);
-            if (c.b.isEmpty() || from.isEmpty() || to.isEmpty()) {
-                output.append("     OOPS!!! Event needs description, /from and /to.\n");
+            if (opts.desc().isEmpty() || opts.from().isEmpty() || opts.to().isEmpty()) {
+                output.append("     OOPS!!! Use: event <desc> /from <start> /to <end>\n");
                 break;
             }
-            String extra = " (from: " + from + " to: " + to + ")";
-            Task tt = new Task(Task.TaskType.E, false, c.b, extra, null);
+
+            String extra = " (from: " + opts.from() + " to: " + opts.to() + ")";
+            Task tt = new Task(Task.TaskType.E, false, opts.desc(), extra, null);
             tasks.add(tt);
             output.append("     Got it. I've added this task:\n");
             output.append("       ").append(ui.render(tt)).append("\n");
             output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
             storageSave();
             break;
+
         case "find":
             if (c.a == null) {
                 output.append("     OOPS!!! Use: find <String>\n");

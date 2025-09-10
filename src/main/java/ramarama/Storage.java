@@ -50,7 +50,7 @@ class Storage {
                 continue;
             }
             if (parts.length > 3) {
-                System.out.println("Misformatteds task line in savefile");
+                System.out.println("Misformatted task line in savefile");
             }
         }
         return out;

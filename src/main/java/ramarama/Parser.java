@@ -18,33 +18,34 @@ class Parser {
     }
 
     static Cmd parse(String in) {
-        if (in.equals("bye")) {
+        String cmd = in.split(" ")[0].toLowerCase();
+        if (cmd.equals("b") || cmd.equals("bye")) {
             return new Cmd("bye");
         }
-        if (in.equals("list")) {
+        if (cmd.equals("l") || cmd.equals("list")) {
             return new Cmd("list");
         }
-        if (in.startsWith("mark ")) {
+        if (cmd.equals("m") || cmd.startsWith("mark ")) {
             Cmd c = new Cmd("mark");
             c.a = in.split(" ")[1];
             return c;
         }
-        if (in.startsWith("unmark ")) {
+        if (cmd.equals("u") || cmd.startsWith("unmark ")) {
             Cmd c = new Cmd("unmark");
             c.a = in.split(" ")[1];
             return c;
         }
-        if (in.startsWith("delete ")) {
+        if (cmd.startsWith("delete ")) {
             Cmd c = new Cmd("delete");
             c.a = in.split(" ")[1];
             return c;
         }
-        if (in.startsWith("todo")) {
+        if (cmd.equals("t") || cmd.startsWith("todo")) {
             Cmd c = new Cmd("todo");
             c.a = in.length() >= 5 ? in.substring(5).trim() : "";
             return c;
         }
-        if (in.startsWith("deadline")) {
+        if (cmd.startsWith("deadline")) {
             Cmd c = new Cmd("deadline");
             String rest = in.length() >= 9 ? in.substring(9) : "";
             int idx = rest.indexOf(" /by ");
@@ -53,7 +54,7 @@ class Parser {
             c.c = idx == -1 ? null : rest.substring(idx + 5).trim();
             return c;
         }
-        if (in.startsWith("event")) {
+        if (cmd.equals("e") || cmd.startsWith("event")) {
             Cmd c = new Cmd("event");
             String rest = in.length() >= 6 ? in.substring(6) : "";
             int fromIdx = rest.indexOf(" /from ");
@@ -64,7 +65,7 @@ class Parser {
                     : rest.substring(fromIdx + 7, toIdx).trim() + "|" + rest.substring(toIdx + 5).trim();
             return c;
         }
-        if (in.startsWith("find")) {
+        if (cmd.equals("f") || cmd.startsWith("find")) {
             Cmd c = new Cmd("find");
             String rest = in.length() >= 5 ? in.substring(5) : "";
             c.a = rest.trim();
