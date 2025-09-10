@@ -14,6 +14,8 @@ public class Main extends Application {
         Rama2 rama2 = new Rama2(Paths.get("data", "rama.txt").toString());
         System.out.println("FXML URL = " + Main.class.getResource("/view/MainWindow.fxml"));
         FXMLLoader fxml = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
+
+        assert fxml != null;
         
 
         Scene scene = new Scene(fxml.load());

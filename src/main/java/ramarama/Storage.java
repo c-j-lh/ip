@@ -43,8 +43,14 @@ class Storage {
                 }
             } else if (t == 'E') {
                 out.add(new Task(Task.TaskType.E, done, desc, extra, null));
-            } else {
+            } else if (t == 'E') {
                 out.add(new Task(Task.TaskType.T, done, desc, "", null));
+            } else {
+                System.out.println("Unrecognised task type in savefile");
+                continue;
+            }
+            if (parts.length > 3) {
+                System.out.println("Misformatteds task line in savefile");
             }
         }
         return out;

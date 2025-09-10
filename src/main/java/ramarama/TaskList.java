@@ -19,6 +19,7 @@ class TaskList {
      * TaskList from List<Task>.
      */
     TaskList(List<Task> loaded) {
+        assert loaded != null;
         tasks.addAll(loaded);
     }
 
@@ -33,13 +34,16 @@ class TaskList {
      * Gets Task i of TaskList.
      */
     Task get(int i) {
-        return tasks.get(i);
+        Task t = tasks.get(i);
+        assert t != null;
+        return t;
     }
 
     /*
      * Adds Task t to TaskList.
      */
     void add(Task t) {
+        assert t != null;
         tasks.add(t);
     }
 
