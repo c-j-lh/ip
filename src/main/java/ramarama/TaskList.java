@@ -7,13 +7,18 @@ import java.util.List;
  * List of tasks.
  */
 class TaskList {
-    final ArrayList<Task> tasks = new ArrayList<>();
+    private final ArrayList<Task> tasks = new ArrayList<>();
 
     /*
      * Empty TaskList.
      */
     TaskList() {
     }
+
+    List<Task> asList() { 
+        return java.util.Collections.unmodifiableList(tasks);
+    }
+
 
     /*
      * TaskList from List<Task>.
