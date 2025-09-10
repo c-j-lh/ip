@@ -58,7 +58,7 @@ class Storage {
             Files.createDirectories(SAVE_PATH.getParent());
         }
         try (BufferedWriter w = Files.newBufferedWriter(SAVE_PATH)) {
-            for (Task t : tl.tasks) {
+            for (Task t : tl.asList()) {
                 String extra = "";
                 if (t.type == Task.TaskType.D) {
                     if (t.due != null) {

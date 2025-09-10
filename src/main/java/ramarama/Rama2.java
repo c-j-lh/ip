@@ -79,64 +79,66 @@ public class Rama2 {
         case "todo":
             if (c.a == null || c.a.isEmpty()) {
                 output.append("     OOPS!!! The description of a todo cannot be empty.\n");
-            } else {
-                Task t = new Task(Task.TaskType.T, false, c.a, "", null);
-                tasks.add(t);
-                output.append("     Got it. I've added this task:\n");
-                output.append("       ").append(ui.render(t)).append("\n");
-                output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
-                storageSave();
+                break;
             }
+            Task t = new Task(Task.TaskType.T, false, c.a, "", null);
+            tasks.add(t);
+            output.append("     Got it. I've added this task:\n");
+            output.append("       ").append(ui.render(t)).append("\n");
+            output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
+            storageSave();
             break;
 
         case "deadline":
             if (c.a == null || c.b == null || c.c == null || c.b.isEmpty() || c.c.isEmpty()) {
                 output.append("     OOPS!!! Use: deadline <desc> /by <when>\n");
-            } else {
-                LocalDate d = Parser.tryParseDate(c.c);
-                Task t = (d != null)
-                        ? new Task(Task.TaskType.D, false, c.b, "", d)
-                        : new Task(Task.TaskType.D, false, c.b, " (by: " + c.c + ")", null);
-                tasks.add(t);
-                output.append("     Got it. I've added this task:\n");
-                output.append("       ").append(ui.render(t)).append("\n");
-                output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
-                storageSave();
+                break;
             }
+            LocalDate d = Parser.tryParseDate(c.c);
+            Task ttt = (d != null)
+                    ? new Task(Task.TaskType.D, false, c.b, "", d)
+                    : new Task(Task.TaskType.D, false, c.b, " (by: " + c.c + ")", null);
+            tasks.add(ttt);
+            output.append("     Got it. I've added this task:\n");
+            output.append("       ").append(ui.render(ttt)).append("\n");
+            output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
+            storageSave();
             break;
 
         case "event":
             if (c.a == null || c.b == null || c.c == null) {
                 output.append("     OOPS!!! Use: event <desc> /from <start> /to <end>\n");
-            } else {
-                int bar = c.c.indexOf('|');
-                String from = c.c.substring(0, bar);
-                String to = c.c.substring(bar + 1);
-                if (c.b.isEmpty() || from.isEmpty() || to.isEmpty()) {
-                    output.append("     OOPS!!! Event needs description, /from and /to.\n");
-                } else {
-                    String extra = " (from: " + from + " to: " + to + ")";
-                    Task t = new Task(Task.TaskType.E, false, c.b, extra, null);
-                    tasks.add(t);
-                    output.append("     Got it. I've added this task:\n");
-                    output.append("       ").append(ui.render(t)).append("\n");
-                    output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
-                    storageSave();
-                }
+                break;
             }
+
+            int bar = c.c.indexOf('|');
+            String from = c.c.substring(0, bar);
+            String to = c.c.substring(bar + 1);
+            if (c.b.isEmpty() || from.isEmpty() || to.isEmpty()) {
+                output.append("     OOPS!!! Event needs description, /from and /to.\n");
+                break;
+            }
+            String extra = " (from: " + from + " to: " + to + ")";
+            Task tt = new Task(Task.TaskType.E, false, c.b, extra, null);
+            tasks.add(tt);
+            output.append("     Got it. I've added this task:\n");
+            output.append("       ").append(ui.render(tt)).append("\n");
+            output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
+            storageSave();
             break;
         case "find":
             if (c.a == null) {
                 output.append("     OOPS!!! Use: find <String>\n");
-            } else {
-                TaskList found = new TaskList();
-                for (int i = 0; i < tasks.size(); i++) {
-                    if (tasks.get(i).desc.contains(c.a)) {
-                        found.add(tasks.get(i));
-                    }
-                }
-                output.append(ui.printList(found));
+                break;
             }
+
+            TaskList found = new TaskList();
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i).desc.contains(c.a)) {
+                    found.add(tasks.get(i));
+                }
+            }
+            output.append(ui.printList(found));
             break;
 
         default:
@@ -166,7 +168,7 @@ public class Rama2 {
         try {
             storage.save(tasks);
         } catch (Exception e) {
-            /* ignore minimal */
+            System.err.println("Failed to save tasks: " + e.getMessage());
         }
     }
 
