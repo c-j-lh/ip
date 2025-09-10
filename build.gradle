@@ -47,6 +47,9 @@ shadowJar {
     archiveClassifier = null
 }
 
-run { standardInput = System.in }
+run { 
+    standardInput = System.in 
+    enableAssertions = true
+}
 
 checkstyle { toolVersion = '11.0.0' }
