@@ -3,3 +3,5 @@ E|0|b| (from: b to: c)
 D|0|c|r
 E|0|x| (from: y y to: z)
 E|0|m| (from: noo oo to: n)
+E|0|e| (from: 2025-10-12 to: 3)
+D|0|laundry|2025-10-03
