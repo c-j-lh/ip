@@ -44,12 +44,20 @@ public class MainWindow {
         dialogContainer.getChildren().add(
             DialogBox.getUserDialog(text, userImage)
         );
-        String reply = rama2.getResponse(text);
-        dialogContainer.getChildren().add(
-            DialogBox.getRama2Dialog(reply, rama2Image)
-        );
+        
 
+        String reply = rama2.getResponse(text);
+        DialogBox responseBox = DialogBox.getRama2Dialog(reply, rama2Image);
+
+        // if reply starts with "OOPs", style it red
+        System.out.printf("repl '%s's\n",reply);
+        if (reply.equals(Rama2.ERROR_STRING)) {
+            responseBox.lookup(".label").setStyle("-fx-text-fill: red;");
+        }
+
+        dialogContainer.getChildren().add(responseBox);
         input.clear();
+
         if ("bye".equalsIgnoreCase(text.trim())) {
             Platform.exit();
         }

@@ -11,6 +11,7 @@ public class Rama2 {
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
+    static final String ERROR_STRING = "     OOPS!!! I'm sorry, but I don't know what that means :-(\n";
 
     public Rama2(String filePath) {
         this.storage = new Storage();
@@ -151,7 +152,7 @@ public class Rama2 {
             break;
 
         case "unknown":
-            output.append("     OOPS!!! I'm sorry, but I don't know what that means :-(").append("\n");
+            output.append(ERROR_STRING);
             break;
         default:
             assert false : "cmd.name should be 'unknown' if invalid";
