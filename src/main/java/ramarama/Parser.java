@@ -25,22 +25,25 @@ class Parser {
         if (cmd.equals("l") || cmd.equals("list")) {
             return new Cmd("list");
         }
-        if (cmd.equals("m") || cmd.startsWith("mark ")) {
+        if (cmd.equals("m") || cmd.equals("mark")) {
             Cmd c = new Cmd("mark");
-            c.a = in.split(" ")[1];
+            String[] splits = in.split(" ", 2);
+            c.a = splits.length > 1 ? splits[1] : "";
             return c;
         }
-        if (cmd.equals("u") || cmd.startsWith("unmark ")) {
+        if (cmd.equals("u") || cmd.equals("unmark")) {
             Cmd c = new Cmd("unmark");
-            c.a = in.split(" ")[1];
+            String[] splits = in.split(" ", 2);
+            c.a = splits.length > 1 ? splits[1] : "";
             return c;
         }
         if (cmd.startsWith("delete ")) {
             Cmd c = new Cmd("delete");
-            c.a = in.split(" ")[1];
+            String[] splits = in.split(" ", 2);
+            c.a = splits.length > 1 ? splits[1] : "";
             return c;
         }
-        if (cmd.equals("t") || cmd.startsWith("todo")) {
+        if (cmd.equals("t") || cmd.equals("todo")) {
             Cmd c = new Cmd("todo");
             c.a = in.length() >= 5 ? in.substring(5).trim() : "";
             return c;
@@ -54,7 +57,7 @@ class Parser {
             c.c = idx == -1 ? null : rest.substring(idx + 5).trim();
             return c;
         }
-        if (cmd.equals("e") || cmd.startsWith("event")) {
+        if (cmd.equals("e") || cmd.equals("event")) {
             Cmd c = new Cmd("event");
             String rest = in.length() >= 6 ? in.substring(6) : "";
             int fromIdx = rest.indexOf(" /from ");
@@ -65,7 +68,7 @@ class Parser {
                     : rest.substring(fromIdx + 7, toIdx).trim() + "|" + rest.substring(toIdx + 5).trim();
             return c;
         }
-        if (cmd.equals("f") || cmd.startsWith("find")) {
+        if (cmd.equals("f") || cmd.equals("find")) {
             Cmd c = new Cmd("find");
             String rest = in.length() >= 5 ? in.substring(5) : "";
             c.a = rest.trim();

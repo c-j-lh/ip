@@ -28,6 +28,7 @@ public class Rama2 {
     public String getResponse(String input) {
         StringBuilder output = new StringBuilder();
         Parser.Cmd c = Parser.parse(input);
+        //System.out.printf("\nc.name %s\n\n", c.name);
         switch (c.name) {
         case "bye":
             output.append(ui.showBye());
