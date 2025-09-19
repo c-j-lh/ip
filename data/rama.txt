@@ -1,3 +1,5 @@
 D|0|week6 iP|Thu
 D|0|week6 laundrys|Thu
 E|0|Dentist| (from: 3pm to: 5pm)
+D|0|a|3
+T|0|hi

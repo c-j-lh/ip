@@ -42,7 +42,7 @@ class Parser {
 
             case "t":
             case "todo": {
-                cmdWithA("todo", in);
+                return cmdWithA("todo", in);
             }
 
             case "deadline": {
