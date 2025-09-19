@@ -130,31 +130,3 @@ The program automatically saves to `Rama2.txt` after every change, and loads fro
 
 ## Fat self-contained (JavaFX-containing) Jar file
 Available at `build\libs\ramarama.jar`
-
-<!--## Command-Line Interface
-The program has a command-line interface too:
-```
-list
-     Here are the tasks in your list:
-     1.[D][ ] Testing «τα???σ»: 1<2 & 4+1>3, now 20% off!        
-     2.[E][ ] b (from: b to: c)
-     3.[D][ ] c (by: r)
-     4.[E][ ] x (from: y y to: z)
-     5.[E][ ] m (from: noo oo to: n)
-     6.[E][ ] e (from: 2025-10-12 to: 3)
-
-deadline laundry /by 2025-10-03
-     Got it. I've added this task:
-       [D][ ] laundry (by: Oct 3 2025)
-     Now you have 7 tasks in the list.
-
-list
-     Here are the tasks in your list:
-     1.[D][ ] Testing «τα???σ»: 1<2 & 4+1>3, now 20% off!
-     2.[E][ ] b (from: b to: c)
-     3.[D][ ] c (by: r)
-     4.[E][ ] x (from: y y to: z)
-     5.[E][ ] m (from: noo oo to: n)
-     6.[E][ ] e (from: 2025-10-12 to: 3)
-     7.[D][ ] laundry (by: Oct 3 2025)
-```-->
