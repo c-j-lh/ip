@@ -26,140 +26,128 @@ public class Rama2 {
     }
 
     public String getResponse(String input) {
-        StringBuilder output = new StringBuilder();
         Parser.Cmd c = Parser.parse(input);
-        //System.out.printf("\nc.name %s\n\n", c.name);
         switch (c.name) {
-        case "bye":
-            output.append(ui.showBye());
-            break;
-
-        case "list":
-            output.append(ui.printList(tasks));
-            break;
-
-        case "mark":
-            try {
-                int n = Integer.parseInt(c.a) - 1;
-                Task t = tasks.get(n);
-                t.done = true;
-                output.append("     Nice! I've marked this task as done:\n");
-                output.append("       ").append(ui.render(t)).append("\n");
-                storageSave();
-            } catch (Exception e) {
-                output.append("     OOPS!!! Please provide a valid task number to mark.\n");
-            }
-            break;
-
-        case "unmark":
-            try {
-                int n = Integer.parseInt(c.a) - 1;
-                Task t = tasks.get(n);
-                t.done = false;
-                output.append("     OK, I've marked this task as not done yet:\n");
-                output.append("       ").append(ui.render(t)).append("\n");
-                storageSave();
-            } catch (Exception e) {
-                output.append("     OOPS!!! Please provide a valid task number to unmark.\n");
-            }
-            break;
-
-        case "delete":
-            try {
-                int n = Integer.parseInt(c.a) - 1;
-                Task t = tasks.get(n);
-                output.append("     Noted. I've removed this task:\n");
-                output.append("       ").append(ui.render(t)).append("\n");
-                tasks.remove(n);
-                output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
-                storageSave();
-            } catch (Exception e) {
-                output.append("     OOPS!!! Please provide a valid task number to delete.\n");
-            }
-            break;
-
-        case "todo":
-            if (c.a == null || c.a.isEmpty()) {
-                output.append("     OOPS!!! The description of a todo cannot be empty.\n");
-                break;
-            }
-            Task t = new Task(Task.TaskType.T, false, c.a, "", null);
-            tasks.add(t);
-            output.append("     Got it. I've added this task:\n");
-            output.append("       ").append(ui.render(t)).append("\n");
-            output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
-            storageSave();
-            break;
-
-        case "deadline":
-            if (c.a == null || c.b == null || c.c == null || c.b.isEmpty() || c.c.isEmpty()) {
-                output.append("     OOPS!!! Use: deadline <desc> /by <when>\n");
-                break;
-            }
-            LocalDate d = Parser.tryParseDate(c.c);
-            Task ttt = (d != null)
-                    ? new Task(Task.TaskType.D, false, c.b, "", d)
-                    : new Task(Task.TaskType.D, false, c.b, " (by: " + c.c + ")", null);
-            tasks.add(ttt);
-            output.append("     Got it. I've added this task:\n");
-            output.append("       ").append(ui.render(ttt)).append("\n");
-            output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
-            storageSave();
-            break;
-
-        case "event":
-            String trimmed = input.trim();
-            int sp = trimmed.indexOf(' ');
-            String rest = sp == -1 ? "" : trimmed.substring(sp + 1);
-
-            // simple whitespace split; no quotes needed
-            String[] argsForPico = rest.isBlank() ? new String[0] : rest.trim().split("\\s+");
-
-            EventOptions opts = new EventOptions();
-            try {
-                new picocli.CommandLine(opts).parseArgs(argsForPico);
-            } catch (picocli.CommandLine.ParameterException ex) {
-                output.append("     OOPS!!! Use: event <desc> /from <start> /to <end>\n");
-                break;
-            }
-
-            if (opts.desc().isEmpty() || opts.from().isEmpty() || opts.to().isEmpty()) {
-                output.append("     OOPS!!! Use: event <desc> /from <start> /to <end>\n");
-                break;
-            }
-
-            String extra = " (from: " + opts.from() + " to: " + opts.to() + ")";
-            Task tt = new Task(Task.TaskType.E, false, opts.desc(), extra, null);
-            tasks.add(tt);
-            output.append("     Got it. I've added this task:\n");
-            output.append("       ").append(ui.render(tt)).append("\n");
-            output.append(String.format("     Now you have %d tasks in the list.\n", tasks.size()));
-            storageSave();
-            break;
-
-        case "find":
-            if (c.a == null) {
-                output.append("     OOPS!!! Use: find <String>\n");
-                break;
-            }
-
-            TaskList found = new TaskList();
-            for (int i = 0; i < tasks.size(); i++) {
-                if (tasks.get(i).desc.contains(c.a)) {
-                    found.add(tasks.get(i));
-                }
-            }
-            output.append(ui.printList(found));
-            break;
-
-        case "unknown":
-            output.append(ERROR_STRING);
-            break;
-        default:
-            assert false : "cmd.name should be 'unknown' if invalid";
+            case "bye":      
+                return ui.showBye();
+            case "list":     
+                return ui.printList(tasks);
+            case "mark":     
+                return handleMark(c);
+            case "unmark":   
+                return handleUnmark(c);
+            case "delete":   
+                return handleDelete(c);
+            case "todo":     
+                return handleTodo(c);
+            case "deadline": 
+                return handleDeadline(c);
+            case "event":    
+                return handleEvent(input);
+            case "find":     
+                return handleFind(c);
+            case "unknown":  
+                return ERROR_STRING;
+            default:         
+                assert false : ("cmd.name should be 'unknown' if invalid."
+                                +  "Something is wrong with the code");
+                return ERROR_STRING;
         }
-        return output.toString();
     }
+
+    private String handleMark(Parser.Cmd c) {
+        Integer idx = parseIndex(c.a);
+        if (idx == null) return "     OOPS!!! Please provide a valid task number to mark.\n";
+        Task t = tasks.get(idx);
+        t.done = true;
+        storageSave();
+        return "     Nice! I've marked this task as done:\n       " + ui.render(t) + "\n";
+    }
+
+    private String handleUnmark(Parser.Cmd c) {
+        Integer idx = parseIndex(c.a);
+        if (idx == null) return "     OOPS!!! Please provide a valid task number to unmark.\n";
+        Task t = tasks.get(idx);
+        t.done = false;
+        storageSave();
+        return "     OK, I've marked this task as not done yet:\n       " + ui.render(t) + "\n";
+    }
+
+    private String handleDelete(Parser.Cmd c) {
+        Integer idx = parseIndex(c.a);
+        if (idx == null) return "     OOPS!!! Please provide a valid task number to delete.\n";
+        Task t = tasks.get(idx);
+        tasks.remove((int) idx);
+        storageSave();
+        return "     Noted. I've removed this task:\n       " + ui.render(t) + "\n"
+            + String.format("     Now you have %d tasks in the list.\n", tasks.size());
+    }
+
+    private String handleTodo(Parser.Cmd c) {
+        if (c.a == null || c.a.isEmpty()) return "     OOPS!!! The description of a todo cannot be empty.\n";
+        Task t = new Task(Task.TaskType.T, false, c.a, "", null);
+        tasks.add(t);
+        storageSave();
+        return addedMsg(t);
+    }
+
+    private String handleDeadline(Parser.Cmd c) {
+        if (c.a == null || c.b == null || c.c == null || c.b.isEmpty() || c.c.isEmpty())
+            return "     OOPS!!! Use: deadline <desc> /by <when>\n";
+        LocalDate d = Parser.tryParseDate(c.c);
+        Task t = (d != null)
+                ? new Task(Task.TaskType.D, false, c.b, "", d)
+                : new Task(Task.TaskType.D, false, c.b, " (by: " + c.c + ")", null);
+        tasks.add(t);
+        storageSave();
+        return addedMsg(t);
+    }
+
+    private String handleEvent(String rawInput) {
+        String trimmed = rawInput.trim();
+        int sp = trimmed.indexOf(' ');
+        String rest = sp == -1 ? "" : trimmed.substring(sp + 1);
+        String[] argsForPico = rest.isBlank() ? new String[0] : rest.trim().split("\\s+");
+
+        EventOptions opts = new EventOptions();
+        try { new picocli.CommandLine(opts).parseArgs(argsForPico); }
+        catch (picocli.CommandLine.ParameterException ex) { return "     OOPS!!! Use: event <desc> /from <start> /to <end>\n"; }
+
+        if (opts.desc().isEmpty() || opts.from().isEmpty() || opts.to().isEmpty())
+            return "     OOPS!!! Use: event <desc> /from <start> /to <end>\n";
+
+        String extra = " (from: " + opts.from() + " to: " + opts.to() + ")";
+        Task t = new Task(Task.TaskType.E, false, opts.desc(), extra, null);
+        tasks.add(t);
+        storageSave();
+        return addedMsg(t);
+    }
+
+    private String handleFind(Parser.Cmd c) {
+        if (c.a == null) return "     OOPS!!! Use: find <String>\n";
+        TaskList found = new TaskList();
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).desc.contains(c.a)) found.add(tasks.get(i));
+        }
+        return ui.printList(found);
+    }
+
+    private Integer parseIndex(String a) {
+        try {
+            int n = Integer.parseInt(a) - 1;
+            if (n < 0 || n >= tasks.size()) return null;
+            return n;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String addedMsg(Task t) {
+        return "     Got it. I've added this task:\n"
+            + "       " + ui.render(t) + "\n"
+            + String.format("     Now you have %d tasks in the list.\n", tasks.size());
+    }
+
 
     /*
      * Main runner function
