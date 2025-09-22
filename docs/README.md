@@ -43,7 +43,7 @@ Example:
 
 Adds an event to the list of tasks.
 
-Example: `event <name> /from <datetime>  /to <datetime>`   (`/from` and `/to` can be swapped.)
+Example: `event <name> /from <datetime>  /to <datetime>`   <!--(`/from` and `/to` can be swapped.)-->
 ```
 > event Dentist /from 3pm /to 5pm
      Got it. I've added this task:
@@ -67,7 +67,7 @@ Lists tasks.
 
 ## Find tasks
 
-Find an task by part of its name
+Find a task by part of its name
 
 Example: `find <search string>`
 ```
@@ -77,9 +77,9 @@ Example: `find <search string>`
      2.[D][ ] week6 laundrys (by: Thu)
 ```
 
-## Mark an task done
+## Mark a task done
 
-Mark an task as done, will be shown as `[X]`
+Mark a task as done, will be shown as `[X]`
 
 Example: `mark <task number in list>`
 ```
@@ -96,9 +96,9 @@ Example: `mark <task number in list>`
 
 ```
 
-## Mark an task __not__ done
+## Mark a task __not__ done
 
-Mark an task as done, will be shown as `[ ]`
+Mark a task as done, will be shown as `[ ]`
 
 Example: `unmark  <task number in list>`
 ```
@@ -117,7 +117,7 @@ Example: `unmark  <task number in list>`
 
 ## Exit
 
-Mark an event as done, will be shown as `[X]`
+Exits
 
 `bye `
 ```
