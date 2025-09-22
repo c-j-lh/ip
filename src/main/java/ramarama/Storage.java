@@ -26,30 +26,39 @@ class Storage {
         ArrayList<Task> out = new ArrayList<>();
         for (String ln : lines) {
             String[] parts = ln.split("\\|", -1);
-            // for (int i = 0; i < parts.length; i++) parts[i] = parts[i].trim();
             if (parts.length < 3) {
                 continue;
             }
             char t = parts[0].charAt(0);
             boolean done = "1".equals(parts[1]);
             String desc = parts[2];
-            String extra = parts.length >= 4 ? parts[3] : "";
-            if (t == 'D') {
-                LocalDate d = tryParse(extra);
-                if (d != null) {
-                    out.add(new Task(Task.TaskType.D, done, desc, "", d));
-                } else {
-                    out.add(new Task(Task.TaskType.D, done, desc, extra.isEmpty() ? "" : " (by: " + extra + ")", null));
+
+            if (t == 'T') {
+                out.add(new Task(Task.TaskType.T, done, desc, null, null));
+            } else if (t == 'D') {
+                if (parts.length < 4) {
+                    continue;
                 }
+                LocalDate by = tryParse(parts[3]);
+                if (by == null) {
+                    continue;
+                }
+                out.add(new Task(Task.TaskType.D, done, desc, by, null));
             } else if (t == 'E') {
-                out.add(new Task(Task.TaskType.E, done, desc, extra, null));
-            } else if (t == 'E') {
-                out.add(new Task(Task.TaskType.T, done, desc, "", null));
+                if (parts.length < 5) {
+                    continue;
+                }
+                LocalDate from = tryParse(parts[3]);
+                LocalDate to = tryParse(parts[4]);
+                if (from == null || to == null) {
+                    continue;
+                }
+                out.add(new Task(Task.TaskType.E, done, desc, from, to));
             } else {
-                System.out.println("Unrecognised task type in savefile");
                 continue;
             }
-            if (parts.length > 3) {
+
+            if (parts.length > 5) {
                 System.out.println("Misformatted task line in savefile");
             }
         }
@@ -65,22 +74,29 @@ class Storage {
         }
         try (BufferedWriter w = Files.newBufferedWriter(SAVE_PATH)) {
             for (Task t : tl.asList()) {
-                String extra = "";
+                StringBuilder line = new StringBuilder();
+                line.append(t.getType())
+                        .append("|")
+                        .append(t.isDone() ? "1" : "0")
+                        .append("|")
+                        .append(t.getDesc());
+
                 if (t.getType() == Task.TaskType.D) {
-                    if (t.getDue() != null) {
-                        extra = t.getDue().toString();
-                    } else {
-                        String d = t.getExtra() == null ? "" : t.getExtra();
-                        extra = d.startsWith(" (by: ") ? d.substring(6, d.length() - 1) : d;
+                    if (t.getDue() == null) {
+                        // strictly dates only; skip writing invalid record
+                        continue;
                     }
+                    line.append("|").append(t.getDue().toString());
                 } else if (t.getType() == Task.TaskType.E) {
-                    extra = t.getExtra() == null ? "" : t.getExtra();
+                    if (t.getDue() == null || t.getEnd() == null) {
+                        // strictly dates only; skip writing invalid record
+                        continue;
+                    }
+                    line.append("|").append(t.getDue().toString())
+                            .append("|").append(t.getEnd().toString());
                 }
-                String line = t.getType() + "|" + (t.isDone() ? "1" : "0") + "|" + t.getDesc();
-                if (!extra.isEmpty()) {
-                    line += "|" + extra;
-                }
-                w.write(line);
+
+                w.write(line.toString());
                 w.newLine();
             }
         }

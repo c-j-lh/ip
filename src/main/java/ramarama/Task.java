@@ -3,25 +3,25 @@ package ramarama;
 import java.time.LocalDate;
 
 /*
- * Task, with type, markedness, description, and either date-as-string or date-as LocalDate
+ * Task, with type, markedness, description, and either LocalDate fields.
  */
 class Task {
     enum TaskType {
         T, D, E
-    };
+    }
 
     private boolean done;
     private String desc;
-    private String extra; // for E and non-date D: "(from: ... to: ...)" or " (by: Sunday)"
-    private LocalDate due; // for date-based D; else null
+    private LocalDate due; // for D
+    private LocalDate end; // for E
     private final TaskType type;
 
-    Task(TaskType type, boolean done, String desc, String extra, LocalDate due) {
+    Task(TaskType type, boolean done, String desc, LocalDate due, LocalDate end) {
         this.type = type;
         this.setDone(done);
         this.desc = desc;
-        this.extra = extra;
         this.due = due;
+        this.end = end;
     }
 
     public TaskType getType() {
@@ -40,11 +40,11 @@ class Task {
         return desc;
     }
 
-    public String getExtra() {
-        return extra;
-    }
-
     public LocalDate getDue() {
         return due;
+    }
+
+    public LocalDate getEnd() {
+        return end;
     }
 }

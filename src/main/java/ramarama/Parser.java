@@ -7,7 +7,7 @@ import java.time.LocalDate;
  */
 class Parser {
     static class Cmd {
-        private String name; // list, bye, todo, deadline, event, mark, unmark, delete, unknown
+        private final String name; // list, bye, todo, deadline, event, mark, unmark, delete, unknown
         private String a;
         private String b;
         private String c; // generic slots
@@ -62,26 +62,11 @@ class Parser {
         }
 
         case "deadline": {
-            Cmd c = new Cmd("deadline");
-            String rest = in.length() >= 9 ? in.substring(9) : "";
-            int idx = rest.indexOf(" /by ");
-            c.a = rest.trim();
-            c.b = idx == -1 ? null : rest.substring(0, idx).trim();
-            c.c = idx == -1 ? null : rest.substring(idx + 5).trim();
-            return c;
+            return cmdDeadline(in);
         }
 
         case "event": {
-            Cmd c = new Cmd("event");
-            String rest = in.length() >= 6 ? in.substring(6) : "";
-            int fromIdx = rest.indexOf(" /from ");
-            int toIdx = rest.indexOf(" /to ");
-            c.a = rest.trim();
-            c.b = fromIdx == -1 ? null : rest.substring(0, fromIdx).trim();
-            c.c = (fromIdx == -1 || toIdx == -1 || toIdx <= fromIdx)
-                    ? null
-                    : rest.substring(fromIdx + 7, toIdx).trim() + "|" + rest.substring(toIdx + 5).trim();
-            return c;
+            return cmdEvent(in);
         }
 
         case "f":
@@ -108,6 +93,28 @@ class Parser {
         return c;
     }
 
+    private static Cmd cmdDeadline(String in) {
+        Cmd c = new Cmd("deadline");
+        String rest = in.length() >= 9 ? in.substring(9).trim() : "";
+        int idx = rest.indexOf("/by ");
+        c.a = rest;
+        c.b = idx == -1 ? null : rest.substring(0, idx).trim();
+        c.c = idx == -1 ? null : rest.substring(idx + 4).trim();
+        return c;
+    }
+
+    private static Cmd cmdEvent(String in) {
+        Cmd c = new Cmd("event");
+        String rest = in.length() >= 6 ? in.substring(6) : "";
+        int fromIdx = rest.indexOf(" /from ");
+        int toIdx = rest.indexOf(" /to ");
+        c.a = rest.trim();
+        c.b = fromIdx == -1 ? null : rest.substring(0, fromIdx).trim();
+        c.c = (fromIdx == -1 || toIdx == -1 || toIdx <= fromIdx)
+                ? null
+                : rest.substring(fromIdx + 7, toIdx).trim() + "|" + rest.substring(toIdx + 5).trim();
+        return c;
+    }
 
     static LocalDate tryParseDate(String s) {
         try {

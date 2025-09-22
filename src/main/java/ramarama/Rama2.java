@@ -12,7 +12,7 @@ public class Rama2 {
     private final Ui ui;
 
     /**
-     * Loads data from filePath and returns.
+     * Loads data from filePath if it exists, and returns.
      *
      * @param filePath
      */
@@ -30,32 +30,24 @@ public class Rama2 {
 
     public String getResponse(String input) {
         Parser.Cmd c = Parser.parse(input);
-        switch (c.getName()) {
-        case "bye":
-            return ui.showBye();
-        case "list":
-            return ui.printList(tasks);
-        case "mark":
-            return handleMark(c);
-        case "unmark":
-            return handleUnmark(c);
-        case "delete":
-            return handleDelete(c);
-        case "todo":
-            return handleTodo(c);
-        case "deadline":
-            return handleDeadline(c);
-        case "event":
-            return handleEvent(input);
-        case "find":
-            return handleFind(c);
-        case "unknown":
-            return ERROR_STRING;
-        default:
-            assert false : ("cmd.name should be 'unknown' if invalid."
-                    + "Something is wrong with the code");
-            return ERROR_STRING;
-        }
+        System.out.printf("n=%s, '%s', '%s', '%s'\n", c.getName(), c.getA(), c.getB(), c.getC());
+        return switch (c.getName()) {
+            case "bye" -> ui.showBye();
+            case "list" -> ui.printList(tasks);
+            case "mark" -> handleMark(c);
+            case "unmark" -> handleUnmark(c);
+            case "delete" -> handleDelete(c);
+            case "todo" -> handleTodo(c);
+            case "deadline" -> handleDeadline(c);
+            case "event" -> handleEvent(input);
+            case "find" -> handleFind(c);
+            case "unknown" -> ERROR_STRING;
+            default -> {
+                assert false : ("cmd.name should be 'unknown' if invalid."
+                        + "Something is wrong with the code");
+                yield ERROR_STRING;
+            }
+        };
     }
 
     private String handleMark(Parser.Cmd c) {
@@ -96,20 +88,21 @@ public class Rama2 {
         if (c.getA() == null || c.getA().isEmpty()) {
             return "     OOPS!!! The description of a todo cannot be empty.\n";
         }
-        Task t = new Task(Task.TaskType.T, false, c.getA(), "", null);
+        Task t = new Task(Task.TaskType.T, false, c.getA(), null, null);
         tasks.add(t);
         storageSave();
         return addedMsg(t);
     }
 
     private String handleDeadline(Parser.Cmd c) {
-        if (c.getA() == null || c.getB() == null || c.getC() == null || c.getB().isEmpty() || c.getC().isEmpty()) {
-            return "     OOPS!!! Use: deadline <desc> /by <when>\n";
+        if (c.getB() == null || c.getC() == null || c.getB().isEmpty() || c.getC().isEmpty()) {
+            return "     OOPS!!! Use: deadline <desc> /by <yyyy-MM-dd>\n";
         }
         LocalDate d = Parser.tryParseDate(c.getC());
-        Task t = (d != null)
-                ? new Task(Task.TaskType.D, false, c.getB(), "", d)
-                : new Task(Task.TaskType.D, false, c.getB(), " (by: " + c.getC() + ")", null);
+        if (d == null) {
+            return "     OOPS!!! Please provide a valid date in yyyy-MM-dd format.\n";
+        }
+        Task t = new Task(Task.TaskType.D, false, c.getB(), d, null);
         tasks.add(t);
         storageSave();
         return addedMsg(t);
@@ -125,15 +118,16 @@ public class Rama2 {
         try {
             new picocli.CommandLine(opts).parseArgs(argsForPico);
         } catch (picocli.CommandLine.ParameterException ex) {
-            return "     OOPS!!! Use: event <desc> /from <start> /to <end>\n";
+            return "     OOPS!!! Use: event <desc> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n";
         }
 
-        if (opts.desc().isEmpty() || opts.from().isEmpty() || opts.to().isEmpty()) {
-            return "     OOPS!!! Use: event <desc> /from <start> /to <end>\n";
+        LocalDate from = Parser.tryParseDate(opts.from());
+        LocalDate to = Parser.tryParseDate(opts.to());
+        if (opts.desc().isEmpty() || from == null || to == null) {
+            return "     OOPS!!! Use: event <desc> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n";
         }
 
-        String extra = " (from: " + opts.from() + " to: " + opts.to() + ")";
-        Task t = new Task(Task.TaskType.E, false, opts.desc(), extra, null);
+        Task t = new Task(Task.TaskType.E, false, opts.desc(), from, to);
         tasks.add(t);
         storageSave();
         return addedMsg(t);

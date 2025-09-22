@@ -7,7 +7,7 @@ import java.util.Scanner;
  * Stores various standard output strings.
  */
 class Ui {
-    static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("MMM d yyyy");
+    static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("dd MMM yyyy");
     final Scanner in = new Scanner(System.in);
     final String m = "    ____________________________________________________________";
 
@@ -51,14 +51,14 @@ class Ui {
         if (t.getType() == Task.TaskType.D) {
             if (t.getDue() != null) {
                 extra = " (by: " + OUT.format(t.getDue()) + ")";
-            } else {
-                extra = t.getExtra() == null ? "" : t.getExtra();
             }
         } else if (t.getType() == Task.TaskType.E) {
-            extra = t.getExtra() == null ? "" : t.getExtra();
+            if (t.getDue() != null) {
+                extra = " (from: " + OUT.format(t.getDue()) + " to: " + OUT.format(t.getEnd()) + ")";
+            }
         }
         return String.format("[%c][%s] %s%s", (
-                t.getType() == Task.TaskType.D) ? 'D' : (t.getType() == Task.TaskType.T) ? 'T' : 'E',
+                        t.getType() == Task.TaskType.D) ? 'D' : (t.getType() == Task.TaskType.T) ? 'T' : 'E',
                 t.isDone() ? "X" : " ", t.getDesc(), extra);
     }
 
