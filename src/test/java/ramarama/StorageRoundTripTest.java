@@ -66,34 +66,34 @@ class StorageRoundTripTest {
         // Assert each field carefully
         // 1) ToDo
         Task t0 = loaded.get(0);
-        assertEquals(Task.TaskType.T, t0.type);
-        assertFalse(t0.done);
-        assertEquals("read book", t0.desc);
-        assertEquals("", t0.extra);
-        assertNull(t0.due);
+        assertEquals(Task.TaskType.T, t0.getType());
+        assertFalse(t0.isDone());
+        assertEquals("read book", t0.getDesc());
+        assertEquals("", t0.getExtra());
+        assertNull(t0.getDue());
 
         // 2) Deadline (ISO)
         Task t1 = loaded.get(1);
-        assertEquals(Task.TaskType.D, t1.type);
-        assertFalse(t1.done);
-        assertEquals("return book", t1.desc);
-        assertEquals("", t1.extra);
-        assertEquals(LocalDate.of(2019, 10, 15), t1.due); // parsed back to LocalDate
+        assertEquals(Task.TaskType.D, t1.getType());
+        assertFalse(t1.isDone());
+        assertEquals("return book", t1.getDesc());
+        assertEquals("", t1.getExtra());
+        assertEquals(LocalDate.of(2019, 10, 15), t1.getDue()); // parsed back to LocalDate
 
         // 3) Deadline (free-text)
         Task t2 = loaded.get(2);
-        assertEquals(Task.TaskType.D, t2.type);
-        assertTrue(t2.done);
-        assertEquals("finish draft", t2.desc);
-        assertEquals(" (by: next week)", t2.extra);
-        assertNull(t2.due);
+        assertEquals(Task.TaskType.D, t2.getType());
+        assertTrue(t2.isDone());
+        assertEquals("finish draft", t2.getDesc());
+        assertEquals(" (by: next week)", t2.getExtra());
+        assertNull(t2.getDue());
 
         // 4) Event
         Task t3 = loaded.get(3);
-        assertEquals(Task.TaskType.E, t3.type);
-        assertFalse(t3.done);
-        assertEquals("project meeting", t3.desc);
-        assertEquals(" (from: Mon 2pm to: 4pm)", t3.extra);
-        assertNull(t3.due);
+        assertEquals(Task.TaskType.E, t3.getType());
+        assertFalse(t3.isDone());
+        assertEquals("project meeting", t3.getDesc());
+        assertEquals(" (from: Mon 2pm to: 4pm)", t3.getExtra());
+        assertNull(t3.getDue());
     }
 }

@@ -7,6 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+/**
+ * Represents a dialog box component that displays a message and an image.
+ */
 public class DialogBox extends HBox {
     @FXML private Label text;
     @FXML private ImageView displayPicture;

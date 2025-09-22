@@ -25,6 +25,6 @@ class UnicodeTest {
         tl = new TaskList(s.load());
 
         Task t = tl.get(0);
-        assertEquals(t.desc, TEST);
+        assertEquals(t.getDesc(), TEST);
     }
 }

@@ -66,17 +66,17 @@ class Storage {
         try (BufferedWriter w = Files.newBufferedWriter(SAVE_PATH)) {
             for (Task t : tl.asList()) {
                 String extra = "";
-                if (t.type == Task.TaskType.D) {
-                    if (t.due != null) {
-                        extra = t.due.toString();
+                if (t.getType() == Task.TaskType.D) {
+                    if (t.getDue() != null) {
+                        extra = t.getDue().toString();
                     } else {
-                        String d = t.extra == null ? "" : t.extra;
+                        String d = t.getExtra() == null ? "" : t.getExtra();
                         extra = d.startsWith(" (by: ") ? d.substring(6, d.length() - 1) : d;
                     }
-                } else if (t.type == Task.TaskType.E) {
-                    extra = t.extra == null ? "" : t.extra;
+                } else if (t.getType() == Task.TaskType.E) {
+                    extra = t.getExtra() == null ? "" : t.getExtra();
                 }
-                String line = t.type + "|" + (t.done ? "1" : "0") + "|" + t.desc;
+                String line = t.getType() + "|" + (t.isDone() ? "1" : "0") + "|" + t.getDesc();
                 if (!extra.isEmpty()) {
                     line += "|" + extra;
                 }

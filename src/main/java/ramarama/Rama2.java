@@ -2,8 +2,8 @@ package ramarama;
 
 import java.time.LocalDate;
 
-/*
- * Main class.
+/**
+ * Main class for handling logic.
  */
 public class Rama2 {
     static final String ERROR_STRING = "     OOPS!!! I'm sorry, but I don't know what that means :-(\n";
@@ -11,6 +11,11 @@ public class Rama2 {
     private final TaskList tasks;
     private final Ui ui;
 
+    /**
+     * Loads data from filePath and returns.
+     *
+     * @param filePath
+     */
     public Rama2(String filePath) {
         this.storage = new Storage();
         this.ui = new Ui();
@@ -25,7 +30,7 @@ public class Rama2 {
 
     public String getResponse(String input) {
         Parser.Cmd c = Parser.parse(input);
-        switch (c.name) {
+        switch (c.getName()) {
         case "bye":
             return ui.showBye();
         case "list":
@@ -54,29 +59,29 @@ public class Rama2 {
     }
 
     private String handleMark(Parser.Cmd c) {
-        Integer idx = parseIndex(c.a);
+        Integer idx = parseIndex(c.getA());
         if (idx == null) {
             return "     OOPS!!! Please provide a valid task number to mark.\n";
         }
         Task t = tasks.get(idx);
-        t.done = true;
+        t.setDone(true);
         storageSave();
         return "     Nice! I've marked this task as done:\n       " + ui.render(t) + "\n";
     }
 
     private String handleUnmark(Parser.Cmd c) {
-        Integer idx = parseIndex(c.a);
+        Integer idx = parseIndex(c.getA());
         if (idx == null) {
             return "     OOPS!!! Please provide a valid task number to unmark.\n";
         }
         Task t = tasks.get(idx);
-        t.done = false;
+        t.setDone(false);
         storageSave();
         return "     OK, I've marked this task as not done yet:\n       " + ui.render(t) + "\n";
     }
 
     private String handleDelete(Parser.Cmd c) {
-        Integer idx = parseIndex(c.a);
+        Integer idx = parseIndex(c.getA());
         if (idx == null) {
             return "     OOPS!!! Please provide a valid task number to delete.\n";
         }
@@ -88,23 +93,23 @@ public class Rama2 {
     }
 
     private String handleTodo(Parser.Cmd c) {
-        if (c.a == null || c.a.isEmpty()) {
+        if (c.getA() == null || c.getA().isEmpty()) {
             return "     OOPS!!! The description of a todo cannot be empty.\n";
         }
-        Task t = new Task(Task.TaskType.T, false, c.a, "", null);
+        Task t = new Task(Task.TaskType.T, false, c.getA(), "", null);
         tasks.add(t);
         storageSave();
         return addedMsg(t);
     }
 
     private String handleDeadline(Parser.Cmd c) {
-        if (c.a == null || c.b == null || c.c == null || c.b.isEmpty() || c.c.isEmpty()) {
+        if (c.getA() == null || c.getB() == null || c.getC() == null || c.getB().isEmpty() || c.getC().isEmpty()) {
             return "     OOPS!!! Use: deadline <desc> /by <when>\n";
         }
-        LocalDate d = Parser.tryParseDate(c.c);
+        LocalDate d = Parser.tryParseDate(c.getC());
         Task t = (d != null)
-                ? new Task(Task.TaskType.D, false, c.b, "", d)
-                : new Task(Task.TaskType.D, false, c.b, " (by: " + c.c + ")", null);
+                ? new Task(Task.TaskType.D, false, c.getB(), "", d)
+                : new Task(Task.TaskType.D, false, c.getB(), " (by: " + c.getC() + ")", null);
         tasks.add(t);
         storageSave();
         return addedMsg(t);
@@ -135,12 +140,12 @@ public class Rama2 {
     }
 
     private String handleFind(Parser.Cmd c) {
-        if (c.a == null) {
+        if (c.getA() == null) {
             return "     OOPS!!! Use: find <String>\n";
         }
         TaskList found = new TaskList();
         for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).desc.contains(c.a)) {
+            if (tasks.get(i).getDesc().contains(c.getA())) {
                 found.add(tasks.get(i));
             }
         }
@@ -165,8 +170,8 @@ public class Rama2 {
                 + String.format("     Now you have %d tasks in the list.\n", tasks.size());
     }
 
-    /*
-     * Main runner function
+    /**
+     * Runs the application in CLI mode.
      */
     public void run() {
         ui.showWelcome();

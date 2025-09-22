@@ -7,6 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Launched by Launcher.java and sets up GUI to run.
+ */
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {

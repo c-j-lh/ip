@@ -7,13 +7,29 @@ import java.time.LocalDate;
  */
 class Parser {
     static class Cmd {
-        String name; // list, bye, todo, deadline, event, mark, unmark, delete, unknown
-        String a;
-        String b;
-        String c; // generic slots
+        private String name; // list, bye, todo, deadline, event, mark, unmark, delete, unknown
+        private String a;
+        private String b;
+        private String c; // generic slots
 
         Cmd(String name) {
             this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getA() {
+            return a;
+        }
+
+        public String getB() {
+            return b;
+        }
+
+        public String getC() {
+            return c;
         }
     }
 

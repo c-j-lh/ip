@@ -48,18 +48,18 @@ class Ui {
      */
     String render(Task t) {
         String extra = "";
-        if (t.type == Task.TaskType.D) {
-            if (t.due != null) {
-                extra = " (by: " + OUT.format(t.due) + ")";
+        if (t.getType() == Task.TaskType.D) {
+            if (t.getDue() != null) {
+                extra = " (by: " + OUT.format(t.getDue()) + ")";
             } else {
-                extra = t.extra == null ? "" : t.extra;
+                extra = t.getExtra() == null ? "" : t.getExtra();
             }
-        } else if (t.type == Task.TaskType.E) {
-            extra = t.extra == null ? "" : t.extra;
+        } else if (t.getType() == Task.TaskType.E) {
+            extra = t.getExtra() == null ? "" : t.getExtra();
         }
         return String.format("[%c][%s] %s%s", (
-                t.type == Task.TaskType.D) ? 'D' : (t.type == Task.TaskType.T) ? 'T' : 'E',
-                t.done ? "X" : " ", t.desc, extra);
+                t.getType() == Task.TaskType.D) ? 'D' : (t.getType() == Task.TaskType.T) ? 'T' : 'E',
+                t.isDone() ? "X" : " ", t.getDesc(), extra);
     }
 
     /*

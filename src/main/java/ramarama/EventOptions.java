@@ -7,6 +7,9 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+/**
+ * Represents parsed options for Event Tasks to allow for flexibility of order of parameters.
+ */
 @Command(name = "event")
 public class EventOptions implements Runnable {
     // multi-word description before any /option
