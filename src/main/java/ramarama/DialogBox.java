@@ -1,46 +1,66 @@
 package ramarama;
 
+import java.io.IOException;
+import java.util.Collections;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
- * Represents a dialog box component that displays a message and an image.
+ * Java component for a single chat bubble with an avatar.
  */
+// only the changed/added lines shown
 public class DialogBox extends HBox {
-    @FXML private Label text;
+    @FXML private Label dialog;
     @FXML private ImageView displayPicture;
 
-    private DialogBox(String msg, Image img) {
+    private DialogBox(String text, Image img) {
         try {
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/DialogBox.fxml"));
-            fxml.setRoot(this);
+            FXMLLoader fxml = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxml.setController(this);
-            fxml.load(); // <-- this populates text & displayPicture
-        } catch (Exception e) {
+            fxml.setRoot(this);
+            fxml.load();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        text.setText(msg);
+        // NEW: style classes (default = user bubble on the right)
+        this.getStyleClass().add("dialog");
+        dialog.getStyleClass().addAll("bubble", "user");
+
+        dialog.setText(text);
         displayPicture.setImage(img);
     }
 
-    public static DialogBox getUserDialog(String msg, Image img) {
-        DialogBox db = new DialogBox(msg, img);
-        db.flip(); // now safe
+    /** Bot on the left. */
+    private void flip() {
+        ObservableList<Node> children = FXCollections.observableArrayList(getChildren());
+        Collections.reverse(children);
+        getChildren().setAll(children);
+        setAlignment(Pos.TOP_LEFT);
+
+        // Switch bubble style from user -> bot
+        dialog.getStyleClass().remove("user");
+        if (!dialog.getStyleClass().contains("bot")) {
+            dialog.getStyleClass().add("bot");
+        }
+    }
+
+    public static DialogBox getUserDialog(String text, Image img) {
+        return new DialogBox(text, img);
+    }
+
+    public static DialogBox getRama2Dialog(String text, Image img) {
+        var db = new DialogBox(text, img);
+        db.flip();
         return db;
     }
-
-    public static DialogBox getRama2Dialog(String msg, Image img) {
-        return new DialogBox(msg, img);
-    }
-
-    private void flip() {
-        var nodes = javafx.collections.FXCollections.observableArrayList(getChildren());
-        java.util.Collections.reverse(nodes);
-        getChildren().setAll(nodes);
-        setAlignment(javafx.geometry.Pos.TOP_RIGHT);
-    }
 }
+

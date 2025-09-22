@@ -39,7 +39,10 @@ public class MainWindow {
 
     void greet() {
         dialogContainer.getChildren().add(
-                DialogBox.getRama2Dialog("Hello! I'm Rama2\nWhat can I do for you?\n", rama2Image));
+                DialogBox.getRama2Dialog("""
+                        Hello! I'm Rama-rama (butterfly in Malay)
+                        What can I do for you?
+                        """, rama2Image));
     }
 
     @FXML

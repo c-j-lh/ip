@@ -1,0 +1,38 @@
+/* App scaffold */
+.root-pane {
+  -fx-background-color: linear-gradient(to bottom, #f8fafc, #eef2f7);
+}
+
+/* Scroll area */
+.scroll-pane {
+  -fx-background-color: transparent;
+}
+.scroll-pane > .viewport {
+  -fx-background-color: transparent;
+}
+
+/* Dialog list container */
+.dialog-container {
+  -fx-padding: 12;
+  -fx-spacing: 10;
+}
+
+/* Input row */
+.text-field {
+  -fx-background-radius: 10;
+  -fx-background-color: white;
+  -fx-padding: 8 10 8 10;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0.2, 0, 1);
+  -fx-border-color: transparent;
+}
+
+.button {
+  -fx-background-radius: 10;
+  -fx-padding: 8 14 8 14;
+  -fx-background-color: #1a73e8;
+  -fx-text-fill: white;
+  -fx-font-weight: 600;
+}
+.button:hover {
+  -fx-background-color: #1669d3;
+}

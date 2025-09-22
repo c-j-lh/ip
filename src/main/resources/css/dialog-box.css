@@ -1,0 +1,36 @@
+/* Root HBox for each dialog bubble */
+.dialog {
+  -fx-alignment: TOP_RIGHT;        /* user default on the right */
+  -fx-padding: 10 8 10 8;
+  -fx-spacing: 8;
+}
+
+/* The text label "bubble" itself */
+.bubble {
+  -fx-padding: 8 12 8 12;
+  -fx-wrap-text: true;
+  -fx-background-radius: 14;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 8, 0.2, 0, 2);
+  -fx-font-size: 13px;
+  -fx-max-width: 380;              /* line wrap for long text */
+}
+
+/* User bubble (right) */
+.bubble.user {
+  -fx-background-color: linear-gradient(to bottom, #4c9aff, #1a73e8);
+  -fx-text-fill: white;
+  -fx-background-insets: 0;
+}
+
+/* Bot bubble (left) */
+.bubble.bot {
+  -fx-background-color: #f2f4f7;
+  -fx-text-fill: #0f172a;
+}
+
+/* Optional: round the avatar a bit */
+.dialog .image-view {
+  -fx-fit-width: 44;
+  -fx-fit-height: 44;
+  -fx-smooth: true;
+}

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 
-<fx:root type="HBox" xmlns:fx="http://javafx.com/fxml" spacing="8" alignment="TOP_LEFT">
-  <children>
-    <ImageView fx:id="displayPicture" fitWidth="50" fitHeight="50" preserveRatio="true"/>
-    <Label fx:id="text" wrapText="true"/>
-  </children>
+<fx:root type="javafx.scene.layout.HBox"
+         xmlns="http://javafx.com/javafx/17"
+         xmlns:fx="http://javafx.com/fxml/1"
+         alignment="TOP_RIGHT"
+         maxWidth="Infinity" maxHeight="Infinity">
+    <children>
+        <Label fx:id="dialog" wrapText="true" minHeight="-Infinity"/>
+        <ImageView fx:id="displayPicture" styleClass="image-view"
+                   fitWidth="44.0" fitHeight="44.0" preserveRatio="true" pickOnBounds="true"/>
+    </children>
+    <padding><Insets top="6" right="6" bottom="6" left="6"/></padding>
 </fx:root>
