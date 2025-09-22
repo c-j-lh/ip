@@ -8,20 +8,28 @@ plugins {
 repositories { mavenCentral() }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
 }
 
-// define the JavaFX version ONCE
 def javafxVersion = '17.0.7'
 
 dependencies {
-    // JavaFX (Windows natives only)
     implementation "org.openjfx:javafx-base:${javafxVersion}:win"
+    implementation "org.openjfx:javafx-base:${javafxVersion}:mac"
+    implementation "org.openjfx:javafx-base:${javafxVersion}:linux"
+
     implementation "org.openjfx:javafx-graphics:${javafxVersion}:win"
+    implementation "org.openjfx:javafx-graphics:${javafxVersion}:mac"
+    implementation "org.openjfx:javafx-graphics:${javafxVersion}:linux"
+
     implementation "org.openjfx:javafx-controls:${javafxVersion}:win"
+    implementation "org.openjfx:javafx-controls:${javafxVersion}:mac"
+    implementation "org.openjfx:javafx-controls:${javafxVersion}:linux"
+
     implementation "org.openjfx:javafx-fxml:${javafxVersion}:win"
+    implementation "org.openjfx:javafx-fxml:${javafxVersion}:mac"
+    implementation "org.openjfx:javafx-fxml:${javafxVersion}:linux"
+
     implementation 'info.picocli:picocli:4.7.6'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.0"
@@ -31,7 +39,6 @@ dependencies {
 test { useJUnitPlatform() }
 
 application {
-    // GUI entry point (package-qualified)
     mainClass.set("ramarama.Launcher")
 }
 
@@ -46,10 +53,11 @@ tasks.register('runGui', JavaExec) {
 shadowJar {
     archiveBaseName = "ramarama"
     archiveClassifier = null
+    mergeServiceFiles()
 }
 
-run { 
-    standardInput = System.in 
+run {
+    standardInput = System.in
     enableAssertions = true
 }
 

@@ -16,7 +16,7 @@ public class DialogBox extends HBox {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/DialogBox.fxml"));
             fxml.setRoot(this);
             fxml.setController(this);
-            fxml.load();                   // <-- this populates text & displayPicture
+            fxml.load(); // <-- this populates text & displayPicture
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -26,7 +26,7 @@ public class DialogBox extends HBox {
 
     public static DialogBox getUserDialog(String msg, Image img) {
         DialogBox db = new DialogBox(msg, img);
-        db.flip();                         // now safe
+        db.flip(); // now safe
         return db;
     }
 

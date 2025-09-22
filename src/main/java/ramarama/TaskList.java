@@ -15,17 +15,16 @@ class TaskList {
     TaskList() {
     }
 
-    List<Task> asList() { 
-        return java.util.Collections.unmodifiableList(tasks);
-    }
-
-
     /*
      * TaskList from List<Task>.
      */
     TaskList(List<Task> loaded) {
         assert loaded != null;
         tasks.addAll(loaded);
+    }
+
+    List<Task> asList() {
+        return java.util.Collections.unmodifiableList(tasks);
     }
 
     /*

@@ -9,10 +9,14 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
 public class MainWindow {
-    @FXML private ScrollPane scrollPane;
-    @FXML private VBox dialogContainer;
-    @FXML private TextField input;
-    @FXML private Button sendButton;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private VBox dialogContainer;
+    @FXML
+    private TextField input;
+    @FXML
+    private Button sendButton;
 
     private Rama2 rama2;
 
@@ -32,25 +36,23 @@ public class MainWindow {
 
     void greet() {
         dialogContainer.getChildren().add(
-            DialogBox.getRama2Dialog("Hello! I'm Rama2\nWhat can I do for you?\n", rama2Image)
-        );
+                DialogBox.getRama2Dialog("Hello! I'm Rama2\nWhat can I do for you?\n", rama2Image));
     }
 
     @FXML
     private void handleSend() {
         String text = input.getText();
-        if (text == null || text.isBlank()) return;
+        if (text == null || text.isBlank()) {
+            return;
+        }
 
         dialogContainer.getChildren().add(
-            DialogBox.getUserDialog(text, userImage)
-        );
-        
+                DialogBox.getUserDialog(text, userImage));
 
         String reply = rama2.getResponse(text);
         DialogBox responseBox = DialogBox.getRama2Dialog(reply, rama2Image);
 
         // if reply starts with "OOPs", style it red
-        System.out.printf("repl '%s's\n",reply);
         if (reply.equals(Rama2.ERROR_STRING)) {
             responseBox.lookup(".label").setStyle("-fx-text-fill: red;");
         }

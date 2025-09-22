@@ -7,9 +7,9 @@ import java.util.Scanner;
  * Stores various standard output strings.
  */
 class Ui {
+    static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("MMM d yyyy");
     final Scanner in = new Scanner(System.in);
     final String m = "    ____________________________________________________________";
-    static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("MMM d yyyy");
 
     /*
      * Returns standard welcome message.
@@ -57,9 +57,9 @@ class Ui {
         } else if (t.type == Task.TaskType.E) {
             extra = t.extra == null ? "" : t.extra;
         }
-        return String.format("[%c][%s] %s%s",
-                ((t.type == Task.TaskType.D) ? 'D' : (t.type == Task.TaskType.T) ? 'T' : 'E'), t.done ? "X" : " ",
-                t.desc, extra);
+        return String.format("[%c][%s] %s%s", (
+                t.type == Task.TaskType.D) ? 'D' : (t.type == Task.TaskType.T) ? 'T' : 'E',
+                t.done ? "X" : " ", t.desc, extra);
     }
 
     /*
