@@ -14,7 +14,7 @@ public class Rama2 {
     /**
      * Loads data from filePath if it exists, and returns.
      *
-     * @param filePath
+     * @param filePath file to load from
      */
     public Rama2(String filePath) {
         this.storage = new Storage();
@@ -32,21 +32,21 @@ public class Rama2 {
         Parser.Cmd c = Parser.parse(input);
         System.out.printf("n=%s, '%s', '%s', '%s'\n", c.getName(), c.getA(), c.getB(), c.getC());
         return switch (c.getName()) {
-            case "bye" -> ui.showBye();
-            case "list" -> ui.printList(tasks);
-            case "mark" -> handleMark(c);
-            case "unmark" -> handleUnmark(c);
-            case "delete" -> handleDelete(c);
-            case "todo" -> handleTodo(c);
-            case "deadline" -> handleDeadline(c);
-            case "event" -> handleEvent(input);
-            case "find" -> handleFind(c);
-            case "unknown" -> ERROR_STRING;
-            default -> {
-                assert false : ("cmd.name should be 'unknown' if invalid."
-                        + "Something is wrong with the code");
-                yield ERROR_STRING;
-            }
+        case "bye" -> ui.showBye();
+        case "list" -> ui.printList(tasks);
+        case "mark" -> handleMark(c);
+        case "unmark" -> handleUnmark(c);
+        case "delete" -> handleDelete(c);
+        case "todo" -> handleTodo(c);
+        case "deadline" -> handleDeadline(c);
+        case "event" -> handleEvent(input);
+        case "find" -> handleFind(c);
+        case "unknown" -> ERROR_STRING;
+        default -> {
+            assert false : ("cmd.name should be 'unknown' if invalid."
+                    + "Something is wrong with the code");
+            yield ERROR_STRING;
+        }
         };
     }
 
@@ -78,7 +78,7 @@ public class Rama2 {
             return "     OOPS!!! Please provide a valid task number to delete.\n";
         }
         Task t = tasks.get(idx);
-        tasks.remove((int) idx);
+        tasks.remove(idx);
         storageSave();
         return "     Noted. I've removed this task:\n       " + ui.render(t) + "\n"
                 + String.format("     Now you have %d tasks in the list.\n", tasks.size());
@@ -168,13 +168,12 @@ public class Rama2 {
      * Runs the application in CLI mode.
      */
     public void run() {
-        ui.showWelcome();
-        boolean exit = false;
-        while (!exit) {
+        System.out.println(ui.showWelcome());
+        while (true) {
             String input = ui.read();
-            ui.line();
-            System.out.println(getResponse(input).toString());
-            ui.line();
+            System.out.println(ui.line());
+            System.out.println(getResponse(input));
+            System.out.println(ui.line());
             if ("bye".equalsIgnoreCase(input.trim())) {
                 break;
             }
