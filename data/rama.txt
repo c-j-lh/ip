@@ -1,5 +1,4 @@
-T|0|a
-T|0|b
-D|0|hi|2025-12-23
-E|0|hi|2025-12-23|2023-12-03
-D|0|b|2025-12-03
+T|0|read book
+D|0|return book|2019-10-15
+D|1|finish draft|2019-11-15
+E|0|project meeting|2019-12-15|2020-10-15
