@@ -49,12 +49,12 @@ class Ui {
     String render(Task t) {
         String extra = "";
         if (t.getType() == Task.TaskType.D) {
-            if (t.getDue() != null) {
-                extra = " (by: " + OUT.format(t.getDue()) + ")";
+            if (t.getDateAt() != null) {
+                extra = " (by: " + OUT.format(t.getDateAt()) + ")";
             }
         } else if (t.getType() == Task.TaskType.E) {
-            if (t.getDue() != null) {
-                extra = " (from: " + OUT.format(t.getDue()) + " to: " + OUT.format(t.getEnd()) + ")";
+            if (t.getDateAt() != null) {
+                extra = " (from: " + OUT.format(t.getDateAt()) + " to: " + OUT.format(t.getEnd()) + ")";
             }
         }
         return String.format("[%c][%s] %s%s", (

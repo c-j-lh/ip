@@ -72,27 +72,27 @@ class StorageRoundTripTest {
         assertEquals(Task.TaskType.T, t0.getType());
         assertFalse(t0.isDone());
         assertEquals("read book", t0.getDesc());
-        assertNull(t0.getDue());
+        assertNull(t0.getDateAt());
 
         // 2) Deadline
         Task t1 = loaded.get(1);
         assertEquals(Task.TaskType.D, t1.getType());
         assertFalse(t1.isDone());
         assertEquals("return book", t1.getDesc());
-        assertEquals(LocalDate.of(2019, 10, 15), t1.getDue()); // parsed back to LocalDate
+        assertEquals(LocalDate.of(2019, 10, 15), t1.getDateAt()); // parsed back to LocalDate
 
         // 3) Deadline
         Task t2 = loaded.get(2);
         assertEquals(Task.TaskType.D, t2.getType());
         assertTrue(t2.isDone());
         assertEquals("finish draft", t2.getDesc());
-        assertEquals(LocalDate.of(2019, 11, 15), t2.getDue());
+        assertEquals(LocalDate.of(2019, 11, 15), t2.getDateAt());
 
         // 4) Event
         Task t3 = loaded.get(3);
         assertEquals(Task.TaskType.E, t3.getType());
         assertFalse(t3.isDone());
         assertEquals("project meeting", t3.getDesc());
-        assertEquals(LocalDate.of(2019, 12, 15), t3.getDue());
+        assertEquals(LocalDate.of(2019, 12, 15), t3.getDateAt());
     }
 }

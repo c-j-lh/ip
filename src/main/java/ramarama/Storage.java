@@ -82,17 +82,17 @@ class Storage {
                         .append(t.getDesc());
 
                 if (t.getType() == Task.TaskType.D) {
-                    if (t.getDue() == null) {
+                    if (t.getDateAt() == null) {
                         // strictly dates only; skip writing invalid record
                         continue;
                     }
-                    line.append("|").append(t.getDue().toString());
+                    line.append("|").append(t.getDateAt().toString());
                 } else if (t.getType() == Task.TaskType.E) {
-                    if (t.getDue() == null || t.getEnd() == null) {
+                    if (t.getDateAt() == null || t.getEnd() == null) {
                         // strictly dates only; skip writing invalid record
                         continue;
                     }
-                    line.append("|").append(t.getDue().toString())
+                    line.append("|").append(t.getDateAt().toString())
                             .append("|").append(t.getEnd().toString());
                 }
 

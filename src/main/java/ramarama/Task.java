@@ -12,15 +12,15 @@ class Task {
 
     private boolean done;
     private String desc;
-    private LocalDate due; // for D
-    private LocalDate end; // for E
+    private LocalDate dateAt; // deadline for D, and start date and E
+    private LocalDate end; // end date for E
     private final TaskType type;
 
-    Task(TaskType type, boolean done, String desc, LocalDate due, LocalDate end) {
+    Task(TaskType type, boolean done, String desc, LocalDate dateAt, LocalDate end) {
         this.type = type;
         this.setDone(done);
         this.desc = desc;
-        this.due = due;
+        this.dateAt = dateAt;
         this.end = end;
     }
 
@@ -40,8 +40,8 @@ class Task {
         return desc;
     }
 
-    public LocalDate getDue() {
-        return due;
+    public LocalDate getDateAt() {
+        return dateAt;
     }
 
     public LocalDate getEnd() {
