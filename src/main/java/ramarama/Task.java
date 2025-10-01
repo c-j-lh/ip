@@ -2,8 +2,8 @@ package ramarama;
 
 import java.time.format.DateTimeFormatter;
 
-/*
- * Task, with type, markedness, description, and either LocalDate fields.
+/**
+ * Task, with type, markedness, description fields.
  */
 abstract class Task {
     static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("dd MMM yyyy");
@@ -27,8 +27,14 @@ abstract class Task {
         return desc;
     }
 
+    /**
+     * One character symbol for this task type.
+     */
     public abstract String getType();
 
+    /**
+     * Returns a well-formatted String for rendering in UIs.
+     */
     @Override
     public String toString() {
         return String.format("[%s][%s] %s", getType(), isDone() ? "X" : " ", getDesc());

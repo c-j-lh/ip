@@ -2,6 +2,9 @@ package ramarama;
 
 import java.time.LocalDate;
 
+/**
+ * Event class, with an additional dateAt and end compared to Task.
+ */
 class Event extends Task {
     private LocalDate dateAt; // start date
     private LocalDate end; // end date
@@ -20,11 +23,17 @@ class Event extends Task {
         return end;
     }
 
+    /**
+     * One character symbol for this task type.
+     */
     @Override
     public String getType() {
         return "E";
     }
 
+    /**
+     * Returns a well-formatted String for rendering in UIs.
+     */
     @Override
     public String toString() {
         return super.toString()

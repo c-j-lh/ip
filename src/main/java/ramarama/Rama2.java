@@ -30,7 +30,6 @@ public class Rama2 {
 
     public String getResponse(String input) {
         Parser.Cmd c = Parser.parse(input);
-        System.out.printf("n=%s, '%s', '%s', '%s'\n", c.getName(), c.getA(), c.getB(), c.getC());
         return switch (c.getName()) {
         case "bye" -> ui.showBye();
         case "list" -> ui.printList(tasks);
