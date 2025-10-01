@@ -88,7 +88,7 @@ public class Rama2 {
         if (c.getA() == null || c.getA().isEmpty()) {
             return "     OOPS!!! The description of a todo cannot be empty.\n";
         }
-        Task t = new Task(Task.TaskType.T, false, c.getA(), null, null);
+        Task t = new Todo(false, c.getA());
         tasks.add(t);
         storageSave();
         return addedMsg(t);
@@ -102,7 +102,7 @@ public class Rama2 {
         if (d == null) {
             return "     OOPS!!! Please provide a valid date in yyyy-MM-dd format.\n";
         }
-        Task t = new Task(Task.TaskType.D, false, c.getB(), d, null);
+        Task t = new Deadline(false, c.getB(), d);
         tasks.add(t);
         storageSave();
         return addedMsg(t);
@@ -127,7 +127,7 @@ public class Rama2 {
             return "     OOPS!!! Use: event <desc> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n";
         }
 
-        Task t = new Task(Task.TaskType.E, false, opts.desc(), from, to);
+        Task t = new Event(false, opts.desc(), from, to);
         tasks.add(t);
         storageSave();
         return addedMsg(t);

@@ -1,31 +1,18 @@
 package ramarama;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /*
  * Task, with type, markedness, description, and either LocalDate fields.
  */
-class Task {
-    enum TaskType {
-        T, D, E
-    }
-
+abstract class Task {
+    static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("dd MMM yyyy");
     private boolean done;
     private String desc;
-    private LocalDate dateAt; // deadline for D, and start date and E
-    private LocalDate end; // end date for E
-    private final TaskType type;
 
-    Task(TaskType type, boolean done, String desc, LocalDate dateAt, LocalDate end) {
-        this.type = type;
+    Task(boolean done, String desc) {
         this.setDone(done);
         this.desc = desc;
-        this.dateAt = dateAt;
-        this.end = end;
-    }
-
-    public TaskType getType() {
-        return type;
     }
 
     public boolean isDone() {
@@ -40,11 +27,10 @@ class Task {
         return desc;
     }
 
-    public LocalDate getDateAt() {
-        return dateAt;
-    }
+    public abstract String getType();
 
-    public LocalDate getEnd() {
-        return end;
+    @Override
+    public String toString() {
+        return String.format("[%s][%s] %s", getType(), isDone() ? "X" : " ", getDesc());
     }
 }

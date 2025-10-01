@@ -17,7 +17,7 @@ class UnicodeTest {
     @Test
     void saveThenLoad_unicode_preservesUnicode() throws IOException {
         List<Task> l = new ArrayList<>();
-        l.add(new Task(Task.TaskType.D, false, TEST, null, null));
+        l.add(new Todo(false, TEST));
         TaskList tl = new TaskList(l);
 
         Storage s = new Storage();

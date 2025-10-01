@@ -1,13 +1,11 @@
 package ramarama;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /*
  * Stores various standard output strings.
  */
 class Ui {
-    static final DateTimeFormatter OUT = DateTimeFormatter.ofPattern("dd MMM yyyy");
     final Scanner in = new Scanner(System.in);
     final String m = "    ____________________________________________________________";
 
@@ -47,19 +45,7 @@ class Ui {
      * Renders a Task to be used in lists or individually.
      */
     String render(Task t) {
-        String extra = "";
-        if (t.getType() == Task.TaskType.D) {
-            if (t.getDateAt() != null) {
-                extra = " (by: " + OUT.format(t.getDateAt()) + ")";
-            }
-        } else if (t.getType() == Task.TaskType.E) {
-            if (t.getDateAt() != null) {
-                extra = " (from: " + OUT.format(t.getDateAt()) + " to: " + OUT.format(t.getEnd()) + ")";
-            }
-        }
-        return String.format("[%c][%s] %s%s", (
-                        t.getType() == Task.TaskType.D) ? 'D' : (t.getType() == Task.TaskType.T) ? 'T' : 'E',
-                t.isDone() ? "X" : " ", t.getDesc(), extra);
+        return t.toString();
     }
 
     /*

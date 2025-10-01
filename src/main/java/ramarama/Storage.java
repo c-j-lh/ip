@@ -34,7 +34,7 @@ class Storage {
             String desc = parts[2];
 
             if (t == 'T') {
-                out.add(new Task(Task.TaskType.T, done, desc, null, null));
+                out.add(new Todo(done, desc));
             } else if (t == 'D') {
                 if (parts.length < 4) {
                     continue;
@@ -43,7 +43,7 @@ class Storage {
                 if (by == null) {
                     continue;
                 }
-                out.add(new Task(Task.TaskType.D, done, desc, by, null));
+                out.add(new Deadline(done, desc, by));
             } else if (t == 'E') {
                 if (parts.length < 5) {
                     continue;
@@ -53,7 +53,7 @@ class Storage {
                 if (from == null || to == null) {
                     continue;
                 }
-                out.add(new Task(Task.TaskType.E, done, desc, from, to));
+                out.add(new Event(done, desc, from, to));
             } else {
                 continue;
             }
@@ -81,19 +81,25 @@ class Storage {
                         .append("|")
                         .append(t.getDesc());
 
-                if (t.getType() == Task.TaskType.D) {
-                    if (t.getDateAt() == null) {
+                if (t instanceof Todo) {
+                    // no extra field to add
+                } else if (t instanceof Deadline) {
+                    Deadline d = (Deadline) t;
+                    if (d.getDateAt() == null) {
                         // strictly dates only; skip writing invalid record
                         continue;
                     }
-                    line.append("|").append(t.getDateAt().toString());
-                } else if (t.getType() == Task.TaskType.E) {
-                    if (t.getDateAt() == null || t.getEnd() == null) {
+                    line.append("|").append(d.getDateAt().toString());
+                } else if (t instanceof Event) {
+                    Event e = (Event) t;
+                    if (e.getDateAt() == null || e.getEnd() == null) {
                         // strictly dates only; skip writing invalid record
                         continue;
                     }
-                    line.append("|").append(t.getDateAt().toString())
-                            .append("|").append(t.getEnd().toString());
+                    line.append("|").append(e.getDateAt().toString())
+                            .append("|").append(e.getEnd().toString());
+                } else {
+                    assert false : "Unknown class";
                 }
 
                 w.write(line.toString());
